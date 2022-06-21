@@ -1,0 +1,35 @@
+<div style="height: 90vh;position: relative;
+float: left;
+width: 100%;
+overflow: hidden;">
+
+  <app-heading [title]="'Survey Questions Preview'"></app-heading>
+  
+<div style="height:75vh;overflow: auto;">
+
+  <div
+
+    *ngFor="let questions of sections; let i = index"
+    style="width:1180px"
+    class="form-row p-3 my-2 shadow-sm mx-3 center"
+  ><app-dynamic-form-question
+      [form]="form"
+      [questionIndex]="i + 1"
+      [questions]="questions"
+    ></app-dynamic-form-question>
+  </div>
+</div>
+ 
+  
+  <div style="margin-top: 2px;" class="row justify-content-center ">
+    <button
+      class="btn btn-secondary btn-sm"
+      role="button"
+      (click)="goBack()"
+      type="button"
+    >
+      Previous Menu
+    </button>
+  </div>
+
+</div>

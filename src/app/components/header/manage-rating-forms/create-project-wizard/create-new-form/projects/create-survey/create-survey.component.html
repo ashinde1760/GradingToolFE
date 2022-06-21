@@ -1,0 +1,116 @@
+<!-- total viewport height 82vh -->
+
+  <div *ngIf='index==null'>
+    <h4 class="text-center place-holder">
+      Add Section
+    </h4>
+  </div>
+<div *ngIf='index!==null' class="row">
+  <div class="col nopadding">
+    <form [formGroup]="util.surveyForm">
+      <fieldset style="margin-top: -3px;" class="border rounded p-2 mx-2">
+        <legend style="font-size: medium;" class="w-auto text-center ">
+          Question Information
+        </legend>
+        <div >
+          <app-create-survey-question
+            [sectionIndex]="index"
+            (questionTypeChange)="detectQuestionType($event)"
+            [showOptionCreator]="showOptionCreator"
+            [showOpenEndedResponseTypeBox]="showOpenEndedResponseTypeBox"
+          ></app-create-survey-question>
+        
+
+        <div class="mt-2">
+          <div class="row align-items-center">
+            <div *ngIf="util.editQuestion" class="col">
+              <input
+              [disabled]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)"
+                type="button"
+                (click)="addNewQuestion()"
+                [style.background-color]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)?'grey':null"
+                [style.border-color]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)?'grey':null"
+                [style.margin-bottom]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)?'2px':null"
+                style="
+                  margin-left: 4px;
+                 
+                "
+                class="save-button"
+                value="Save Edit"
+              />
+              <input
+                type="button"
+                (click)="dismiss()"
+                style="
+                  width: 110px;
+                  padding: 1px 0px 0px 1px;
+                  border: solid 1px rgb(202, 28, 28) ;
+                  background-color:red ;
+                  border-radius: 5px;
+                  margin-left: 4px;
+                  color: white;
+                "
+                value="Cancel"
+              />
+            </div>
+            <div *ngIf="!util.editQuestion" class='col'>
+              <input
+                type="button"
+                (click)="addNewQuestion()"
+                class="save-button"
+                value="Save"
+                [disabled]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)"
+                [style.background-color]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)?'grey':null"
+                [style.border-color]="(util.surveyForm.get('questionType').value!=='Open-ended'&&util.surveyForm.get('question').invalid||util.surveyForm.get('options').invalid)||(util.surveyForm.get('questionType').value=='Open-ended'&&util.surveyForm.get('weightage').invalid)?'grey':null"
+                />
+            </div>
+            <!-- <span *ngIf="util.surveyForm.get('options').invalid&&!util.surveyForm.get('options').untouched||util.surveyForm.get('question').invalid&&!util.surveyForm.get('question').untouched"  style="color: red;font-size: small;">*please fill the mandatory fields</span> -->
+            <div class="col" >
+              <div style="display: flex;flex-direction: row;justify-content: flex-end;align-items: center;height:45px">
+
+                <div style="display: flex;flex-direction:column;padding-top: 14px">
+                  <div style="display: flex;flex-direction:row;justify-content: space-evenly;" >
+                  <i  title="Attach Image mandatory for question" [style.color]="util.addImage?'#f66b87':'grey'" (click)="acceptAttachment('Image')"  class="fas fa-camera"  ></i>
+                  <i  [style.color]="util.addImage?'#f66b87':'grey'" *ngIf="!showImageOptions&&util.addImage" class="fa fa-angle-down" style="color: grey;font-size: 15px;" (click)="changeShowImageOption()" ></i>
+                  <i [style.color]="util.addImage?'#f66b87':'grey'" *ngIf="showImageOptions" class="fa fa-angle-up" style="color: grey;font-size: 15px;" (click)='changeShowImageOption()' ></i>
+                </div>
+                    <p [style.color]="util.addImage?'#f66b87':'grey'" style="margin-right: 15px;font-size: smaller;text-align: center;">Add Image</p>
+                  <div [@mediaOption]="showImageOptions&&util.addImage? 'expanded' : 'collapsed'" [style.background-color]="util.addImage?'rgb(255, 105, 105)':'rgb(236, 236, 236)'" style="position: absolute;width:100px;height:70px;border-radius: 12px;display: flex;flex-direction: column;justify-content: space-evenly;padding-left: 10px;margin-top: 40px;transform: translateZ(2px)">
+                    <div>
+                      <input  [checked]="util.surveyForm.get('imageAttachment').value=='Optional'" value="Optional" type="radio" formControlName="imageAttachment"/><span style="font-size: small;"> Optional</span>
+                    </div>
+                    <div>
+                      <input  [checked]="util.surveyForm.get('imageAttachment').value=='Yes'" value="Yes" type="radio" formControlName="imageAttachment"/><span style="font-size: small;"> Mandatory</span>
+                    </div>
+                  </div>
+                  </div>
+                  <!-- <input type="file" hidden #image  accept="image/*" (change)="acceptAttachment($event)"/> -->
+              <div style="display: flex;flex-direction:column;padding-top: 14px;">
+                <div style="display: flex;flex-direction:row;justify-content: space-evenly;" >
+                  <i title="Attach File mandatory for question"[style.color]="util.addFile?'#f66b87':'grey'" (click)="acceptAttachment('Document')" class="far fa-file" ></i>
+                  <i [style.color]="util.addFile?'#f66b87':'grey'" *ngIf="!showFileOptions&&util.addFile" class="fa fa-angle-down" style="color: grey;font-size: 15px;" (click)="changeShowFileOption()" ></i>
+                  <i [style.color]="util.addFile?'#f66b87':'grey'" *ngIf="showFileOptions" class="fa fa-angle-up" style="color: grey;font-size: 15px;" (click)='changeShowFileOption()' ></i>
+                </div>
+                <p [style.color]="util.addFile?'#f66b87':'grey'" style="margin-right: 15px;font-size: smaller;text-align: center;">Add File</p>
+                <div [@mediaOption]="showFileOptions? 'expanded' : 'collapsed'" [style.background-color]="util.addFile?'rgb(255, 105, 105)':'rgb(236, 236, 236)'" style="position: absolute;width:100px;height:70px;border-radius: 12px;display: flex;flex-direction: column;justify-content: space-evenly;padding-left: 10px;margin-top: 40px;transform: translateZ(2px);right: 4px;">
+                  <div>
+                    <input value="Optional" [checked]="util.surveyForm.get('docAttachment').value=='Optional'" type="radio" formControlName="docAttachment"/><span style="font-size: small;"> Optional</span>
+                  </div>
+                  <div>
+                    <input  value="Yes" [checked]="util.surveyForm.get('docAttachment').value=='Yes'" type="radio" formControlName="docAttachment"/><span style="font-size: small;"> Mandatory</span>
+                  </div>
+                </div>
+              </div>
+                
+                  <!-- <input type="file" hidden #file accept="application/pdf" (change)="acceptAttachment($event)"/> -->
+      
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+

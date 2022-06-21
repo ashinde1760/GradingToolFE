@@ -1,0 +1,170 @@
+<app-heading [title]="'Manage Rating Form'"></app-heading>
+<div style="padding-top:20px ;padding-bottom: 20px;padding-right: 20px;" class="row ">
+  <div class="col d-flex justify-content-end">
+    <button class="btn btn-outline-secondary btn-sm" [attr.disabled]="selectedFormIndex!==null?true:null" (click)="addNewForm()" >
+      <i class="fas fa-plus" ></i>
+      Add new form
+    </button>
+   
+  </div>
+</div>
+<!-- <div class="container">
+<div *ngIf="formArray.length!==0" class="row">
+  
+  <div
+    
+    style="margin-left: 5%;width:90%;height:60px;overflow: hidden;overflow-x: scroll;white-space: nowrap;margin-top: 25px;"
+  >
+    <div class='list-Item' *ngFor='let form of formList$ | async;let i=index' (click)="showFormRequest(i)">{{form._formName}}</div>
+    
+    
+      *ngFor="let project of projectManagementService.projects; let i = index"-->
+    
+  <!-- </div>
+  <div class="list-Item-add" (click)="addNewForm()">Add Form</div>
+</div> -->
+  <!-- <div class='row'>
+      <div  class="col-5 mx-auto my-auto contain p-5 shadow">
+  <form  (ngSubmit)="createFormRequest()" [formGroup]="request" class="form-group">
+    <div class="form-group">
+      <label>Form Name</label>
+      <input class="form-control form-control-sm" formControlName="formName" type="text"> -->
+      <!-- <span *ngIf="createForm.get('formName').invalid && createForm.get('formName').touched"
+             class="text-danger">
+        provide a Form Name
+      </span> -->
+    <!-- </div>
+    <div class="form-group">
+      <label>User Allowed to access the form</label><br>
+      <input formControlName="centerInCharge" type="checkbox">
+      <label>Center-In-Charge</label><br>
+      <input formControlName="fieldAuditor" type="checkbox">
+      <label>Field-Auditor</label><br>
+      <input formControlName="clientSponser" type="checkbox">
+      <label>ClientSponser</label><br> -->
+      <!-- <span *ngIf="createForm.get('formName').invalid && createForm.get('formName').touched"
+             class="text-danger">
+        provide a Form Name 
+      </span>-->
+    <!-- </div>
+    <div class="form-row justify-content-center  mt-4 ">
+      <div class="col ">
+        <button (click)="goBack()" class="btn btn-sm btn-outline-danger w-100" type="button"><i
+          class="fas fa-times"></i>
+          Cancel
+        </button>
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-sm btn-outline-secondary w-100"
+          type="submit"
+        ><i
+          class="far fa-hand-point-right"></i>{{showForm ? 'Next' : 'Add'}} 
+        </button>
+      </div>
+    </div>
+  </form>
+</div> --> 
+<div class="mx-auto" style="overflow: auto; width: 80vw; height: 60vh;display: flex;flex-flow: column;align-items: center;">
+  
+  <form (ngSubmit)="createFormRequest()" style="width: 80vw" [formGroup]="request">
+    <table class="table borderless">
+      <thead style="font-size: span">
+        <tr class="text-center border border-left-0 border-right-0 border-top-0">
+          <th style="padding-bottom:68px;" >Select</th>
+          <th style="padding-bottom:68px;" class="text-center">Actions</th>
+        <th style="padding-bottom:68px;" class="text-center">Form Name</th>
+        <th>
+          <tr class="text-center  border-left-0 border-right-0 border-top-0" >          
+            <th colspan="3" class="text-center">Permitted Roles</th>           
+          </tr>
+          <tr class="text-center border-left-0 border-right-0 border-top-0">
+            <th style="border: none;" class="text-center">Center-In-Charge</th>
+            <th  class="text-center">Field-Auditor</th>
+            <th  class="text-center">ClientSponser</th>
+          </tr>
+        <th style="padding-bottom:68px;" class="text-center">Date of Creation</th>
+        <th style="padding-bottom:68px;" class="text-center">Status</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="request.get('formListArray')['controls'].length==0">
+      <tr>
+        <td colspan="5">
+          <div style="width:100%;display: flex;justify-content: center;" >
+            <h4 class="text-center place-holder">
+              Add Form
+            </h4>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="request.get('formListArray')['controls'].length!==0" formArrayName="formListArray">
+      <tr [formGroupName]="i" *ngFor="let formCon of request.get('formListArray')['controls']; let i=index"
+        class="text-center border border-left-0 border-right-0 border-top-0">
+        <td class="text-center"><input name="selectButton" [checked]="!addForm&&selectedFormIndex===i" [disabled]="addForm||selectedFormIndex!==i&&selectedFormIndex!==null" (click)="selectedForm(i)" type="radio" /></td>
+        <td class="p-1">
+          <button (click)="deselect(i)" *ngIf="selectedFormIndex===i" class="btn page-secondary-action-btn">
+            <i class="fa fa-times"></i>
+          </button>
+          <button *ngIf="!addForm&&selectedFormIndex===i&&editForm&&!isPublished" style="color: rgb(29, 55, 141);" (click)="editFormRequest()"  id="saveBtn" class="btn page-primary-action-btn">
+            <i class="fas fa-save"></i>
+          </button>
+          <i *ngIf="!addForm&&!editForm&&selectedFormIndex===i&&!isPublished" (click)="changeEditState()" id='edit' class="fas fa-user-edit mx-2"></i>
+          <i *ngIf="!addForm&&selectedFormIndex===i&&!isPublished" (click)="deleteForm()" id='delete'  class="fa fa-trash ml-2" aria-hidden="true"></i>
+        </td>
+        <td class="p-1">
+          <input  [attr.disabled]="selectedFormIndex===i&&addForm||selectedFormIndex===i&&editForm?null:true"  (change)="onTextChange()" style="margin-top: 5px;" type="text" formControlName="formName" 
+            class="form-control form-control-sm text-center select-width" maxlength="25" required />
+            <span *ngIf="selectedFormIndex===i?(request.get('formListArray')['controls'][selectedFormIndex].controls.formName.touched&&request.get('formListArray')['controls'][selectedFormIndex].controls.formName.invalid):false" style="font-size: small;color: red;">Form name should not be empty</span>
+        </td>
+        <td style="margin-left: 50px;align-items: center;" class="p-1"  >
+          
+            <div style="display:flex;flex-flow: row;justify-content: space-evenly; align-items: center;">
+
+              <td style="border-style: none;" class="p-1" ><input [attr.disabled]="selectedFormIndex===i&&addForm||selectedFormIndex===i&&editForm?null:true" formControlName="centerInCharge" type="checkbox" /> </td>
+              <td style="border-style: none;" class="p-1"><input [attr.disabled]="selectedFormIndex===i&&addForm||selectedFormIndex===i&&editForm?null:true" formControlName="fieldAuditor" type="checkbox" /> </td>
+              <td style="border-style: none;" class="p-1"><input [attr.disabled]="selectedFormIndex===i&&addForm||selectedFormIndex===i&&editForm?null:true" formControlName="clientSponsor" type="checkbox" /></td>
+            </div>
+            <!-- <span style="font-size: small;color: red;" *ngIf="selectedFormIndex===i?(!request.get('formListArray')['controls'][i].value.centerInCharge||!request.get('formListArray')['controls'][i].value.clientSponser||!request.get('formListArray')['controls'][i].value.fieldAuditor)&&(!request.get('formListArray')['controls'][i].value.centerInCharge&&request.get('formListArray')['controls'][i].controls.centerInCharge.touched
+            ||!request.get('formListArray')['controls'][i].value.clientSponser&&request.get('formListArray')['controls'][i].controls.clientSponser.touched
+            ||!request.get('formListArray')['controls'][i].value.fieldAuditor&&request.get('formListArray')['controls'][i].controls.fieldAuditor.touched):false"> Select atleast one role </span> -->
+            <!-- <select class="form-control form-control-sm text-center select-width"  [value]="user.role" [disabled]="!(enableEdit && enableEditIndex == i)" required #role>
+              <option value="Center-In-Charge">Center-In-Charge</option>
+              <option value="Field-Auditor">Field-Auditor</option>
+              <option value="Client-Sponsor">Client-Sponsor</option>
+              <option value="Admin">Admin</option>
+          </select> -->
+        </td>
+        <td class="p-1">
+          <input disabled="true" style="margin-top: 5px;" type="text" formControlName="date" 
+            class="form-control form-control-sm text-center select-width" maxlength="25" required />
+        </td>   
+        <td class="p-1">
+          <input disabled="true" style="margin-top: 5px;" type="text" formControlName="status"
+          class="form-control form-control-sm text-center select-width" maxlength="25" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+</div>
+<div style="padding-top:20px ;padding-bottom: 20px;padding-right: 30px;" class="row ">
+  <div class="col d-flex justify-content-start">
+    <button style="border-style: none;background-color: transparent;">
+      <i class="fa fa-chevron-circle-left" id='backButton' (click)="goToManageForms()"  ></i>
+    </button>
+  </div>
+  <div class="col d-flex justify-content-end"> 
+    <button style="margin-right: 4px;" [disabled]="selectedFormIndex!==null?(!(request.get('formListArray')['controls'][selectedFormIndex].valid)||!(request.get('formListArray')['controls'][selectedFormIndex].value.centerInCharge||request.get('formListArray')['controls'][selectedFormIndex].value.clientSponser||request.get('formListArray')['controls'][selectedFormIndex].value.fieldAuditor) || isPublished):true" *ngIf="!addForm"  class="btn btn-outline-secondary btn-sm" (click)="publishFormRequest()" >
+      Publish Form
+    </button>
+    <button style="margin-right: 4px;" [disabled]="selectedFormIndex!==null?(!(request.get('formListArray')['controls'][selectedFormIndex].valid)||!(request.get('formListArray')['controls'][selectedFormIndex].value.centerInCharge||request.get('formListArray')['controls'][selectedFormIndex].value.clientSponser||request.get('formListArray')['controls'][selectedFormIndex].value.fieldAuditor)):true" *ngIf="!addForm" (click)="previewFormRequest()"  class="btn btn-outline-secondary btn-sm" >
+      <i class="far fa-hand-point-right"></i>
+      Preview Form
+    </button>
+    <button (click)="createFormRequest()" [disabled]="selectedFormIndex!==null?(!(request.get('formListArray')['controls'][selectedFormIndex].valid)||!(request.get('formListArray')['controls'][selectedFormIndex].value.centerInCharge||request.get('formListArray')['controls'][selectedFormIndex].value.clientSponser||request.get('formListArray')['controls'][selectedFormIndex].value.fieldAuditor) || isPublished):true" class="btn btn-outline-secondary btn-sm" >
+      <i class="far fa-hand-point-right"></i>
+      {{addForm?'Design Form':'Edit Form'}} 
+    </button>
+  </div>
+</div>

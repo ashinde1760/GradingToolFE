@@ -1,0 +1,51 @@
+<div class="report-container" *ngIf="formObj !== null">
+    <div class="main-heading">Project Report </div>
+    <div class="container-body">
+        <div class="project-data-grid">
+            <div class="two-column-grid">
+                <div class="first-grid">
+                    <div class="single-flex-container">
+                        <div class="li label1">Project Name :</div><div class="li p-name">{{formObj.reportHeader.projectName}}</div>
+                    </div>
+                    <div class="single-flex-container">
+                        <div class="li label1">Date on which report was extracted :</div><div class="li extract-date">{{formObj.reportHeader.date}}</div>
+                    </div>
+                </div>
+                <div class="second-grid">
+                    <div class="single-flex-container">
+                        <div class="li label2">No of partners included :</div><div class="li partr-include">{{formObj.reportHeader.partnersIncluded}}</div>
+                    </div>
+                    <div class="single-flex-container">
+                        <div class="li label2">No of training centers included :</div><div class="li center-include">{{formObj.reportHeader.tcIncluded}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>           
+    </div>
+    <div class="warning"  *ngIf="formObj.warning != ''">
+        <h5><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Warning!</h5>
+        <span>{{formObj.warning}}</span>
+    </div>
+    <div id="partnerSummTemp">
+      <table class="summery-scorcard-table" style="margin-top: 10vh; float: left;">
+          <tr>
+              <th>Sl No.</th>
+              <th>PIA Name</th>
+              <th>Centre Rating</th>
+              <th>Project Grading</th>
+              <th>Final %age</th>
+              <th>Grade</th>
+          </tr>  
+          <tr *ngFor='let partnersSummary of formObj.reportBody.partnersSummary; let i=index'>
+            <td>{{i+1}}</td>
+            <td>{{partnersSummary.PIA}}</td>
+            <td>{{partnersSummary.centerRating}}</td>
+            <td>{{partnersSummary.projectGrading}}</td>
+            <td>{{partnersSummary.finalAvg}}</td>
+            <td>{{partnersSummary.grade}}</td>
+          </tr>          
+      </table>
+    </div>
+  </div>
+  
+  

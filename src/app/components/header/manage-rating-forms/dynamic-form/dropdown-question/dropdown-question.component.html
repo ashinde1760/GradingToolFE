@@ -1,0 +1,31 @@
+<div style="display:flex;justify-content: space-between;">
+    <select
+      [attr.disabled]="question.disabled ? '' : null"
+      [name]="question.key"
+      [id]="question.key"
+      [required]="true"
+      style="max-width: 250px;"
+      class="form-control mx-3 "
+      (change)="setMark(selectedoption.value)"
+
+      #selectedoption
+    >
+      <option   
+       disabled selected value="">choose an option</option>
+      <option 
+        *ngFor="let option of question.options"
+        value={{option.optionweightage}}
+      >
+        {{ option.optionData }}
+      </option>
+    </select>
+  
+    <div style="display: flex;flex-direction: row;justify-content: flex-start;width:70px">
+      <p>
+        score : 
+      </p>
+      <p>
+        {{selectedScore}}
+      </p>
+    </div>
+  </div>

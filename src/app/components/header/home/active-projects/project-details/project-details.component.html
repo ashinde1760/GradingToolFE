@@ -1,0 +1,60 @@
+<div class="row border border-left-0 border-top-0 border-bottom-0 m-auto" style="height: 35.5vh">
+  <div class="col text-center my-auto">
+    <div class="row justify-content-around my-auto pr-5">
+      <div>
+        <circle-progress
+          [animationDuration]="1000"
+          [animation]="true"
+          [innerStrokeColor]="'#ccc'"
+          [innerStrokeWidth]="8"
+          [outerStrokeColor]="'#fc0303'"
+          [outerStrokeWidth]="10"
+          [percent]="partnersCovered/totalPartners*100"
+          [radius]="61"
+          [showUnits]="false"
+          [subtitle]="''"
+          [title]="partnersCovered"
+        ></circle-progress>
+        <br/>
+        <span>Partners Covered</span>
+      </div>
+      <div >
+        <circle-progress
+          [animationDuration]="1000"
+          [animation]="true"
+          [innerStrokeColor]="'#ccc'"
+          [innerStrokeWidth]="8"
+          [outerStrokeColor]="'#fcf403'"
+          [outerStrokeWidth]="10"
+          [percent]="tcCompleted/totalTC*100"
+          [radius]="61"
+          [showUnits]="false"
+          [subtitle]="''"
+          [title]="tcCompleted+'/'+totalTC"
+        ></circle-progress>
+
+        <br/>
+        <span>Training Centers <br> Completed</span>
+      </div>
+      <div>
+        <circle-progress
+          [animationDuration]="1000"
+          [animation]="true"
+          [innerStrokeColor]="'#ccc'"
+          [innerStrokeWidth]="8"
+          [outerStrokeColor]="'#0377fc'"
+          [outerStrokeWidth]="10"
+          [percent]="avgMarks"
+          [radius]="61"
+          [showUnits]="true"
+          [subtitle]="''"
+          [title]=""
+          [unitsFontSize]="15"
+        ></circle-progress>
+
+        <br/>
+        <span>Average Partner <br> Score</span>
+      </div>
+    </div>
+  </div>
+</div>

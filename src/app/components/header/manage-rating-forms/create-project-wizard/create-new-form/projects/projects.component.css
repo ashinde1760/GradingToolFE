@@ -1,0 +1,35 @@
+.heading {
+  background-color: rgb(255, 187, 0);
+}
+
+.my-border1 {
+  border-left: solid 0.25px #aaa !important;
+  border-top: solid 0.25px #aaa !important;
+  border-bottom: solid 0.25px #aaa !important;
+}
+
+.my-border2 {
+  border-left: solid 0.25px #aaa !important;
+  border-right: solid 0.25px #aaa !important;
+  border-top: solid 0.25px #aaa !important;
+  border-bottom: solid 0.25px #aaa !important;
+}
+
+.my-border3 {
+  border-left: solid 0.25px #aaa !important;
+  border-right: solid 0.25px #aaa !important;
+  border-bottom: solid 0.25px #aaa !important;
+}
+
+.types {
+  background-color: #eee;
+  padding: 5px 5px 5px 5px;
+}
+
+.btn-submit {
+  color: white;
+  width: 100px;
+  border: solid 1px #aaa;
+  border-radius: 5px;
+  background-color: darkorange;
+}

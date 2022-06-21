@@ -1,0 +1,6 @@
+.container-fluid{
+    padding: 0;
+    position: relative;
+    float: left;
+    width: 100%;
+}

@@ -1,0 +1,108 @@
+<div class="w-100" style="position: relative; float: left; height: auto">
+  <div
+    class="row justify-content-center bg-primary"
+    style="
+      height: 10vh;
+      height: 10vh;
+      position: relative;
+      float: left;
+      width: 100%;
+      margin: 0;
+    "
+  >
+    <h2 class="text-white align-self-center pt-2">Field Assistance Tool</h2>
+  </div>
+
+
+  
+  <div
+    class="row"
+    style="
+      height: auto;
+      position: relative;
+      float: left;
+      width: 100%;
+      margin: 0;
+      display: flex;
+    "
+  >
+   
+  
+  
+  
+  <div
+      *ngIf="(isLoggedIn$ | async) && (role$ | async) == 'Admin'"
+      class="col-2 nopadding nav-pane"
+      style="position: relative; float: left; height: auto; width: 16.666667%"
+    >
+      <div class="" style="height: 10vh">
+        <div class="row justify-content-around align-items-center bg-white p-4">
+          <span>Welcome {{ firstName$ | async }}</span>
+
+          <img
+            alt="user icon"
+            class=""
+            height="30"
+            src="../../assets/user_image.png"
+            width="30"
+          />
+        </div>
+      </div>
+
+      <div class="p-3" style="height: 80vh">
+        <ul class="list-group">
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" [routerLink]="['/home']">Home</a>
+          </li>
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" routerLink="user-access-management"
+              >User Access Management</a
+            >
+          </li>
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" routerLink="master-data-management"
+              >Master Data Management</a
+            >
+          </li>
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" routerLink="manage-rating-forms"
+              >Manage Rating Form</a
+            >
+          </li>
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" routerLink="scheduler"
+              >Scheduler</a
+            >
+          </li>
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" routerLink="download-reports"
+              >Download reports</a
+            >
+          </li>
+          <li class="mt-3">
+            <a [routerLinkActive]="'active'" routerLink="account-settings"
+              >Account settings</a
+            >
+          </li>
+          <li class="mt-3 mb-3">
+            <a class="text-white" (click)="logout()" style="cursor: pointer"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="col nopadding"
+      style="
+        position: relative;
+        float: left;
+        height: 90vh;
+        flex: 1;
+        overflow-x: hidden;
+      "
+    >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

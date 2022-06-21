@@ -1,0 +1,164 @@
+<div id="target" *ngIf="formObj !== null">
+  <div class="report-container">
+    <div class="main-heading">Training Center Report </div>
+    <div class="container-body">
+      <div class="project-data-grid">
+        <div class="two-column-grid">
+          <div class="first-grid">
+            <div class="single-flex-container">
+              <div class="li label1">Project Name :</div>
+              <div class="li p-name">{{formObj.reportHeader.projectName}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label1">Name of PIA :</div>
+              <div class="li pia-name">{{formObj.reportHeader.PIA}}</div>
+            </div>
+          </div>
+          <div class="second-grid">
+            <div class="single-flex-container">
+              <div class="li label2">Center ID :</div>
+              <div class="li center-id">{{formObj.reportHeader.centerId}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label2">Partner SPOC phone :</div>
+              <div class="li phone">{{formObj.reportHeader.partnerSPOCPhone}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="single-flex-container">
+          <div class="li label1 address-label">Training Center address :</div>
+          <div class="li address-text">{{formObj.reportHeader.TCAddress}}</div>
+        </div>
+        <div class="two-column-grid">
+          <div class="first-grid">
+            <div class="single-flex-container">
+              <div class="li label1">Training Center SPOC name :</div>
+              <div class="li tc-spoc-name">{{formObj.reportHeader.centerInchargeName}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label1">Training Center Phone :</div>
+              <div class="li tc-phone">{{formObj.reportHeader.centerInchargeContact}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label1">Training Center Email ID :</div>
+              <div class="li tc-email">{{formObj.reportHeader.centerInchargeEmail}}</div>
+            </div>
+          </div>
+          <div class="second-grid">
+            <div class="single-flex-container">
+              <div class="li label2">Partner SPOC Email ID :</div>
+              <div class="li prt-spoc-email">{{formObj.reportHeader.partnerSPOCEmailId}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label2">Partner SPOC name :</div>
+              <div class="li prt-spoc-name">{{formObj.reportHeader.partnerSPOCName}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label2">Partner Project ID :</div>
+              <div class="li prt-prj-id">{{formObj.reportHeader.partnerProjectId}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="warning" *ngIf="formObj.warning != ''">
+      <h5><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Warning!</h5>
+      <span>{{formObj.warning}}</span>
+    </div>
+  </div>
+  <div style='margin: 5vh 10% 10vh;'>
+    <div class="scorcard-container" style="margin-top: 2vh;">
+      <div class="sub-heading-type1">Audit Summary</div>
+      <table class="summery-scorcard-table" style="width: 70%;">
+        <tr>
+          <th>#</th>
+          <th>Field Auditor Name</th>
+          <th>Secondary Auditor Name</th>
+          <th>Date of Audit </th>
+          <th>Form Name</th>
+        </tr>
+        <tr *ngFor="let audit of formObj.reportHeader.audits; let i=index">
+          <td>{{i}}</td>
+          <td>{{audit.fieldAuditorName}}</td>
+          <td>{{audit.secondaryAuditorName}}</td>
+          <td>{{audit.auditDate}}</td>
+          <td>{{audit.formName}}</td>
+        </tr>
+      </table>
+    </div>
+    <div *ngFor='let form of formObj.reportBody.forms; let i=index'>
+      <div class="scorcard-container">
+        <div class="sub-heading-type1">
+          Summary Scorecard
+        </div>
+        <table class="summery-scorcard-table" style="width: 70%;">
+          <tr>
+            <th>#Form {{i+1}}</th>
+            <th>Max Marks</th>
+            <th>SA Score %</th>
+            <th>FA score %</th>
+          </tr>
+          <tr>
+            <td>{{form.formName}}</td>
+            <td>{{form.maxMarks}}</td>
+            <td>{{form.SAScore}}</td>
+            <td>{{form.FAScore}}</td>
+          </tr>
+          <tr>
+            <td colspan='4' style="background-color:#5D6D7E;color:white;font-weight:bold;font-size:0.85rem;">Sections:</td>
+          </tr>
+          <tr *ngFor='let section of form.sectionsDetails'>
+            <td>{{section.sectionName}}</td>
+            <td>{{section.maxScore}}</td>
+            <td>{{section.SAScore}}</td>
+            <td>{{section.FAScore}}</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <div class="sub-heading-type1" style="margin-left: 3vw;">
+          Section Wise Scorecard
+        </div>
+        <div *ngFor='let section of form.sectionsDetails'>
+          <div class="sub-heading-type2">{{section.sectionName}}</div>
+          <div class="sub-section-table">
+            <table class="sub-summery-scorcard-table">
+              <tbody>
+                <tr>
+                  <th>#</th>
+                  <th>Parameter</th>
+                  <th>Max.Marks</th>
+                  <th>Criteria for Grading</th>
+                  <th>Mark Obtainable</th>
+                  <th>SA Score</th>
+                  <th>FA score</th>
+                </tr>
+                <tr *ngFor='let scorecard of section.scorecard ;let i=index'>
+                  <td rowspan="scorecard.optionsDetails.length"><span>{{i+1}}</span></td>
+                  <td rowspan="scorecard.optionsDetails.length"><span>{{scorecard.parameter}}</span></td>
+                  <td rowspan="scorecard.optionsDetails.length"><span>{{scorecard.maxMarks}}</span></td>
+                  <td rowspan="scorecard.optionsDetails.length">
+                    <tr *ngFor='let options of scorecard.optionsDetails; let j=index'>
+                      <td style=" padding: 8px;" rowspan="scorecard.optionsDetails.length" class='sub-summery-scorcard-table-td' [ngStyle]="{'background-color':((j+1)%2)!==0?null:'white'}">{{options.optionValue}}</td>
+                    </tr>
+                  </td>
+                  <td style='justify-content: space-evenly ;flex-direction: column;'>
+                    <tr *ngFor='let options of scorecard.optionsDetails; let j=index'>
+                      <td style=" padding: 8px;" class='sub-summery-scorcard-table-td' [ngStyle]="{'background-color':((j+1)%2)!==0?null:'white'}">{{options.optionWeightage}}</td>
+                    </tr>
+                  </td>
+                  <td rowspan="scorecard.optionsDetails.length"><span>{{scorecard.SAScore}}</span></td>
+                  <td rowspan="scorecard.optionsDetails.length"><span>{{scorecard.FAScore}}</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div>
+    <!-- <button style="position: relative;" type="button" (click)="downloadPdf()">download pdf</button> -->
+  </div>
+</div>

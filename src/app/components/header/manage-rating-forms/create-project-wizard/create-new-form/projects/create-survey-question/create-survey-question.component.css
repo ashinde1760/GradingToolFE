@@ -1,0 +1,48 @@
+.disableDiv {
+  pointer-events: none;
+  background-color: tomato;
+}
+
+select,
+option {
+  font-size: 14px;
+}
+
+.review-option {
+  max-height:15vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: 25;
+}
+
+.contain {
+  height: 47vh;
+
+  /* height: 58.2vh; */
+}
+
+#create-question {
+  flex: 1;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
+  margin-left: 50%;
+  margin-right: 50%;
+}
+.save-button {
+  width: 110px;
+  height: 30px;
+  padding: 1px 0px 0px 1px 0px;
+  background-image: linear-gradient(#ffffff, #f66b87);
+  border: solid 1px crimson;
+  border-radius: 5px;
+}
+
+.create-question-help {
+  background-color: #eeeeee;
+  color: dimgray;
+}
+
+.ng-invalid.ng-touched{
+  border-color: red;
+}

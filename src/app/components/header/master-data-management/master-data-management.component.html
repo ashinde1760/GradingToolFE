@@ -1,0 +1,309 @@
+<div>
+  <app-heading [title]="'Master Data Management'"></app-heading>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"  aria-hidden="true" aria-labelledby="exampleModalCenterTitle">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Upload Data</h5>
+           
+          <button type="button" class="close" data-dismiss="modal" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">        
+          <form>
+              <div style="display: flex;flex-direction:column;">
+                <div style="display:flex;flex-direction: row;align-items: center;justify-content: space-evenly;align-items: center;">
+                  <p>Select Project</p>
+                <select required  class="form-control form-control-sm select-width" id="selectProjectId" name="selectProjectId" [(ngModel)]="selectedProjectId" #selectProjectId="ngModel" >
+                  <!-- <option value="" selected ></option> -->
+                  <option *ngFor="let project of projectList$ | async "
+                  [value]="project.projectId">
+                  {{ project.title }}
+                  </option>
+                </select>
+              </div>
+                
+          <span  *ngIf="selectProjectId.errors?.required && selectProjectId?.touched" style="margin-left: 20%;font-size: 15px;color: red;">*Please select a project</span>
+           <div style="width:50%">
+             <input required id="selectedFile" style="margin-top: 15px;margin-left: 15%;margin-right: 2px;" type="file"  
+                   (change)="addFile($event)" #fileInput />
+           </div>     
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+        
+          <button type="button" (click)="uploadFile(selectProjectId)" aria-hidden="true" class="btn btn-primary" data-dismiss="modal" >Upload
+            
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="row m-auto px-2">
+    
+  </div> -->
+
+  <div style="margin-top:2%;" class="row  px-2">
+    <div class="col-sm-8 form-inline">
+      <form class="filter">
+        <input placeholder="Filter By Project Name" name="projectName" [(ngModel)]="projectName" #userprojectName="ngModel" (input)="setApply(userprojectName.value, userpartnerName.value, usertcId.value)"/>
+        <input placeholder="Filter By Partner Name" name="partnerName" [(ngModel)]="partnerName"  #userpartnerName="ngModel" (input)="setApply(userprojectName.value, userpartnerName.value, usertcId.value)"/>
+        <input placeholder="Filter By TC Id" name="tcId" [(ngModel)]="tcId" #usertcId="ngModel" (input)="setApply(userprojectName.value, userpartnerName.value, usertcId.value)"/>
+        <button [disabled]="isApplyDisabled" type="submit" class="btn btn-outline-secondary btn-sm" (click)="filetrBy(userprojectName.value,userpartnerName.value,usertcId.value)" style="margin:5px;">Apply</button>
+        <button type="reset" class="btn btn-outline-secondary btn-sm" (click)="list()">Reset</button>
+      </form>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <div>
+        <button class="btn btn-outline-secondary btn-sm" [disabled]="enableEdit || selectedRowCount>0" (click)="addIndivisual()">
+          <i class="fas fa-plus"></i>
+          Add Individual Entry
+        </button>
+      </div>
+      <div (mouseenter)="changeshowUploadOptions()" (mouseleave)="changeshowUploadOptions()">
+        <button class="btn btn-outline-secondary btn-sm ml-1" [disabled]="enableEdit || selectedRowCount>0" >
+          <i class="fas fa-cloud-upload-alt"></i>
+          Upload Client Master Data
+        </button>
+        <div style="position: absolute;" [@mediaOption]="showuploadOptions? 'expanded' : 'collapsed'" >
+          <!-- [@mediaOption]="showFileOptions? 'expanded' : 'collapsed'" -->
+          <!-- <div> -->
+            <button style="width:90%"  data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-outline-secondary btn-sm ml-1"  [disabled]="enableEdit || selectedRowCount>0" > 
+              Upload File
+            </button>
+          <!-- </div> -->
+          <!-- <div> -->
+            <button style="width:90%" class="btn btn-outline-secondary btn-sm ml-1" (click)="downloadFile()"  [disabled]="enableEdit || selectedRowCount>0" >
+              Download Template 
+            </button>
+          <!-- </div> -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row mx-auto mt-2">
+    <div class="mx-auto" style="overflow: auto;margin-top: 2%; width: 80vw; height: 65vh">
+      <form [formGroup]="masterDataUtil.masterDataForm">
+        <div class="control-bar">   
+          
+          <input type="checkbox" class="selectall" (change)="selectAll($event)" *ngIf="!enableEdit" [checked]="isAllButtonChecked" />         
+          <i class="fas fa-trash mx-1 text-danger" *ngIf="selectedRowCount > 0&&!enableEdit" (click)="delete($event)"></i>
+          <i class="fa fa-pencil mx-2" *ngIf="selectedRowCount==1&&!enableEdit" (click)="enableEditMethod($event)"></i>
+          <button *ngIf="isNew || enableEdit" id="saveBtn" class="btn page-primary-action-btn" (click)="saveMasterData($event)" >
+            <i class="fas fa-save"></i>
+          </button>
+          <button *ngIf="isNew || enableEdit" class="btn page-secondary-action-btn" (click)="cancel()">
+          <i class="fa fa-times"></i>
+        </button>
+        </div>
+        <table class="table">
+          <thead style="font-size: span">
+            <tr class="text-center border border-left-0 border-right-0 border-top-0 padding-0">
+            <th class="text-center pl-4 sticky-col">Select</th>
+            <th class="text-center" style="width: 30px;">Grading Enabled</th>
+            <th class="text-center">Project Name</th>
+            <th class="text-center">Partner Name</th>
+            <th class="text-center">Partner Project Id</th>
+            <th  class="text-center" style="display: flex;justify-content: center; flex-direction:column;">
+              <tr>
+                Client Sponser Name
+              </tr>
+              <tr>
+                (First and Last Name)
+              </tr>
+            </th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Contact</th>
+            <th class="text-center">TC Id</th>
+            <th class="text-center">TC Name</th>
+            <th class="text-center">Center Address</th>
+            <th class="text-center">District</th>
+            <th class="text-center" style="display: flex;justify-content: center; flex-direction:column;">
+              <tr >
+                Center-Incharge Name
+              </tr>
+              <tr>
+                (First and Last Name)
+              </tr>
+            </th>
+            <th class="text-center"> Email</th>
+            <th class="text-center"> Contact</th>
+            <th class="text-center">Latitude</th>
+            <th class="text-center">Longitude</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="listOfMasterData">
+          <tr style="position: relative;" [formGroupName]="i" *ngFor="let masterData of masterDataUtil.masterDataForm.get('listOfMasterData')['controls'];let i=index" class="text-center border border-left-0 border-right-0 border-top-0">
+            <!-- actions  -->
+            <td class="text-center checkbox"><input style="margin:15px 0 0 15px;" type="checkbox" (change)="onChecked($event, i)" [id]="i" [disabled]="enableEdit" [checked]="enableEdit&&isNew&&i==0" /></td>
+              <!-- is grading Enabled -->
+              <td  class="p-1">
+                <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;" class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)" formControlName="isGradingEnable"  [id]="'customSwitches'+i">
+                  <label  class="custom-control-label" [for]="'customSwitches'+i"></label>
+                </div>
+              </td>
+               <!-- Project Name -->
+               <td  class="p-1">
+                <select [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)" class="form-control form-control-sm select-width"   formControlName="projectId" #projectRef>
+                  <option *ngFor="let project of projectList$ | async "
+                  [value]="project.projectId">
+                  {{ project.title }}                
+                  </option>
+                </select>            
+              </td>
+            <!-- partner name or id -->
+              <td (mouseover)="PTNindex=i" style="position: relative;" (mouseleave)="PTNindex=null" class="p-1">
+                <input [ngStyle]="(partnerName.value.length>14 && PTNindex==i && enableEditIndex !== i ) ?{'position': 'absolute','box-shadow': 'rgb(0,0,0,0.4) 1px 1px 4px', 
+                'width': '200px','margin-left':'-15px'}:null"    [attr.disabled]="isNew && i==0?null:true" class="form-control form-control-sm text-center select-width" list="partners"   (change)="getTraingCenterDetailsbyPartner(i)" formControlName="partnerName" #partnerName/>
+                <datalist  id ="partners"  #patnerId>
+                  <option  class="text-center" value="{{partners.partnerName}}" *ngFor="let partners of partners$ | async">
+                    {{ partners.partnerName }}
+                  </option>                 
+                </datalist>
+              </td>
+              <!-- partner project id -->
+              <td  class="p-1">
+                <input class="form-control form-control-sm text-center select-width" [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)"   formControlName="partnerProjectId" />
+              </td>
+
+              <!-- client sponser -->
+              <td class="p-1" style="border: none;">
+                <input style="width: 200px;" type="text" list="csList" [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)" class="form-control form-control-sm text-center select-width" (change)="setClientSponsor(i)"
+                  formControlName="csName"/>
+                  <datalist  id ="csList"  #csList>
+                    <option  class="text-center" value="{{ sponsors.firstName}} {{sponsors.lastName}}" *ngFor="let sponsors of clientSponsors$ | async">
+                      {{ sponsors.email}}
+                    </option>                   
+                  </datalist>
+              </td>
+              <!-- CL Sponser email -->
+              <td (mouseover)="CLemailindex=i" (mouseleave)="CLemailindex=null" class="p-1" style="border: none;position: relative;display: flex;justify-content: center;" class="p-1">
+                <input class="form-control form-control-sm text-center select-width"  [attr.disabled]="isNew && i==0 && masterDataUtil.masterDataForm.get('clientSponsorId').value==null?null:(enableEdit && enableEditIndex==i && masterDataUtil.masterDataForm.get('clientSponsorId').value==null?null:true)" formControlName="csEmail" #csEmail/>
+                <span [ngStyle]="(!enableEdit && CLemailindex==i && enableEditIndex !== i ) ?{'position':'absolute','top':'7px','box-shadow':'rgb(0,0,0,0.4) 1px 1px 4px','margin-top': '0',
+                'width':'auto','padding':'5px 10px','display':'block','background-color':'white','border-radius': '5px'}:{'display':'none'}">{{csEmail.value}}</span>
+              </td>
+              <!-- Client Sponser Contact No. -->
+              <td class="p-1">
+                <input type="number" [attr.disabled]="isNew && i==0 && masterDataUtil.masterDataForm.get('clientSponsorId').value==null?null:(enableEdit && enableEditIndex==i && masterDataUtil.masterDataForm.get('clientSponsorId').value==null?null:true)" class="form-control form-control-sm text-center select-width"
+                  formControlName="csNumber" />
+              </td>
+              <!-- TC id -->
+              <td class="p-1">
+                <input type="text" [attr.disabled]="isNew && i==0?null:true"  list="trainingCenters" (change)="getTraingCenterDetailsbyTcId(i)" class="form-control form-control-sm text-center select-width"
+                 formControlName="tcId" />
+                 <datalist id="trainingCenters" #traingCeneterId>
+                   <option class="text-center" value="{{traingCeneter.tcId}}" *ngFor="let traingCeneter of TCforPartner$|async">
+                     {{ traingCeneter.tcId }}
+                   </option>
+                 </datalist>
+              </td>
+              <!-- Tc Name -->
+              <td (mouseover)="TCnameindex=i" style="position: relative;border:none" (mouseleave)="TCnameindex=null" class="p-1">
+                <input [ngStyle]="(tcName.value.length>14 && TCnameindex==i && enableEditIndex !== i ) ?{'position': 'absolute','box-shadow': 'rgb(0,0,0,0.4) 1px 1px 4px',
+                  'width': 'auto','margin-left':'-15px'}:null" class="form-control form-control-sm text-center select-width" [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)"  formControlName="tcName" #tcName/>
+              </td>
+              <!-- Center Address -->
+              <td class="p-1">
+                <textarea class="form-control form-control-sm text-center" [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)" style="resize: none"  cols="24" 
+                  formControlName="centerAddress"></textarea>
+              </td>
+              <!-- District -->
+              <td class="p-1">
+                <input type="text" [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)" class="form-control form-control-sm text-center select-width"
+               formControlName="district" />
+                <!-- <select class="form-control form-control-sm select-width" [disabled]="!(enableEdit && enableEditIndex == i)" #district>
+                  <option *ngFor="let district of partner.district; let j = index">
+                    {{ district }}
+                  </option>
+                </select> -->
+              </td>
+              <!-- CI name -->
+              <td  class="p-1" (mouseover)="CInameindex=i" (mouseleave)="CInameindex=null" style="border: none;">
+                <!-- <select class="form-control form-control-sm text-center select-width" [disabled]="!(enableEdit && enableEditIndex == i)" formControlName='ciName'> -->
+                  <!-- <option>{{partner.centerInchargeName?partner.centerInchargeName:(centerInCharge?centerInCharge:'')}}</option> -->
+                  <!-- <option value="{{ user.userId }}" *ngFor="let user of users$ | async ">{{ user.firstName }}</option> -->
+                <!-- </select> -->
+                <input  style="width: 200px;"  [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)" class="form-control form-control-sm text-center select-width" list="centerInchargeIds"  (change)="getcenterInCharge(i)"  formControlName="ciName" #ciName/>
+                <datalist id="centerInchargeIds" #centerInchargeIds>
+                  <option class="text-center" value="{{ centerIncharge.firstName}} {{centerIncharge.lastName}}" *ngFor="let centerIncharge of centerInchargeList$ | async ">
+                    {{ centerIncharge.email}}
+                  </option>
+                </datalist>
+                <!-- <input  type="text"
+                  class="form-control form-control-sm text-center select-width" value="5f8e8e0d720b78129bb84f07" [disabled]="!(enableEdit && enableEditIndex == i)"
+                  #officerName /> -->
+              </td> 
+              <!-- CI Email -->
+              <td (mouseover)="CIemailindex=i" (mouseleave)="CIemailindex=null" class="p-1" style="border: none;position: relative;display: flex;justify-content: center;">
+                <input [attr.disabled]="isNew && i==0 && masterDataUtil.masterDataForm.get('centerInchargeId').value==null?null:(enableEdit && enableEditIndex==i && masterDataUtil.masterDataForm.get('centerInchargeId').value==null?null:true)" class="form-control form-control-sm text-center select-width"   formControlName="ciEmail" #ciEmail />
+                <span [ngStyle]="(!enableEdit && CIemailindex==i && enableEditIndex !== i ) ?{'position':'absolute','top':'7px','box-shadow':'rgb(0,0,0,0.4) 1px 1px 4px','margin-top': '0',
+                'width':'auto','padding':'5px 10px','display':'block','background-color':'white','border-radius': '5px'}:{'display':'none'}">{{ciEmail.value}}</span>
+              </td>
+              <!-- CI Contact -->
+              <td class="p-1" >
+                <input  [attr.disabled]="isNew && i==0 && masterDataUtil.masterDataForm.get('centerInchargeId').value==null?null:(enableEdit && enableEditIndex==i && masterDataUtil.masterDataForm.get('centerInchargeId').value==null?null:true)" type="text"
+                  class="form-control form-control-sm text-center select-width" 
+                  formControlName="ciNumber" />
+              </td>
+              <!-- Longitude -->
+              <td class="p-1">
+                <input [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)"  type="text"  class="form-control form-control-sm text-center select-width"  formControlName="latitude" />
+              </td>
+              <!-- Latitude -->
+              <td class="p-1">
+                <input [attr.disabled]="isNew && i==0?null:(enableEdit && enableEditIndex==i?null:true)"  type="text" class="form-control form-control-sm text-center select-width"  formControlName="longitude" />
+              </td>        
+            </tr>
+          </tbody>          
+        </table>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="isFailedDataTableOpened" class="failed-upload-table">
+    <div class="cross-btn" (click)="closeFailedDataTable()">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </div>
+    <div class="heading">
+      Failed Data
+    </div>
+    <div class="heading-sec">
+      <div class="left-column">
+        Failed data count: {{failedUploadData.failuresRecordsCount}}
+      </div>
+      <div class="right-column">
+        Processed data count: {{failedUploadData.totalRecord - failedUploadData.failuresRecordsCount}}
+      </div>
+    </div>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr class="text-center border border-left-0 border-right-0 border-top-0 padding-0">
+            <th class="text-center">Row Number</th>
+            <th class="text-center">Partner Name</th>
+            <th class="text-center">Training Center Id</th>
+            <th class="text-center">ErrorMsg</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr *ngFor="let data of failedUploadData.failureRecords" class="text-center border border-left-0 border-right-0 border-top-0">
+            <td class="p-1">{{data.rowNumber}}</td>
+            <td class="p-1">{{data.partnerName}}</td>
+            <td class="p-1">{{data.trainingCenterId}}</td>
+            <td class="p-1">{{data.errorMsg}}</td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div class="justify-content-center align-items-center text-center">
+    <app-auth-spinner *ngIf="isLoading"></app-auth-spinner>
+  </div>
+</div>

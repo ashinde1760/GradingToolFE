@@ -1,0 +1,275 @@
+
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 24px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+.on
+{
+  display: none;
+}
+
+.on, .off
+{
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+  
+}
+
+input:checked+ .slider .on
+{display: block;}
+
+input:checked + .slider .off
+{display: none;}
+
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 40%;
+}
+
+
+
+i {
+  font-size: 14px !important;
+  cursor: pointer;
+}
+
+select[disabled] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+/* .select-width {
+  width: 200px;
+  text-align-last: center;
+} */
+
+tr input,
+tr select {
+  border: none;
+  position:relative
+}
+
+table {
+  width: max-content;
+  table-layout: auto;
+}
+
+tr input-group-text:disabled,
+tr input:disabled,
+tr select:disabled {
+  background-color: white !important;
+  text-overflow: ellipsis;
+  width:130px;
+  overflow:hidden;
+  white-space: nowrap; 
+}
+
+
+
+tr input-group-text:enabled,
+tr input:enabled,
+tr select:enabled {
+  background-color: #eee !important;
+}
+.sticky-col {
+  position: -webkit-sticky;
+  position: sticky;
+  background-color: white;
+}
+.table-container {
+  max-width: 100vw !important;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  /* position: relative; */
+  overflow: auto;
+
+  white-space: nowrap;
+}
+
+div div input, 
+div div select {
+  outline: 0;
+  /* border: none; */
+  border-width: 0 0 2px;
+  margin-right: 10px;
+  /* border-color: blue */
+}
+
+div div select:invalid { 
+  color: gray; 
+  height: 30px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+    
+}
+
+/* #table tr td input:disabled:hover{
+
+  overflow:visible;
+} */
+
+
+.failed-upload-table{
+  position: absolute;
+  top: 10vh;
+  left: 15%;
+  width: 70%;
+  height: auto;
+  z-index: 1051;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.failed-upload-table .heading{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 6vh;
+  text-align: center;
+  color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;;
+}
+
+.failed-upload-table .heading-sec{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 6vh;
+}
+
+.failed-upload-table .heading-sec .left-column{
+  position: relative;
+  float: left;
+  margin-left: 1vw;
+  margin-top: 1vh;
+  color: red;
+}
+
+.failed-upload-table .heading-sec .right-column{
+  position: relative;
+  float: right;
+  margin-right: 1vw;
+  margin-top: 1vh;
+  color: green;
+}
+
+.failed-upload-table .table-container{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: 60vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.failed-upload-table .table-container table{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+  table-layout: auto;
+  outline: none !important;
+}
+
+.failed-upload-table .cross-btn{
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gray;
+  border-radius: 50%;
+}
+
+.failed-upload-table .cross-btn i{
+  color: white;
+  font-size: 0.85rem;
+}
+
+.edit-header{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+  padding: 0 50px 10px;
+  margin-top: 2.5vh;
+}
+

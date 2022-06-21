@@ -1,0 +1,98 @@
+<div  class="collapse" [attr.id]="'question-set' + i">
+  <!-- {{ questionList | json }} -->
+  <div *ngFor="let question of questionList; let j = index" class="col-12 px-4">
+    <div class="row m-auto mt-2">
+      <div
+        class="col-1 d-flex justify-content-start align-items-start nopadding"
+      >
+        <span class="font-weight-bold">{{ "Q." + (j + 1) + " " }} </span>
+      </div>
+      <div style="margin-left:1px;" class="col d-flex justify-content-start align-items-start ">
+        <span class="">{{ question.question }}</span>
+      </div>
+      <app-edit-survey-form-container
+        [sectionIndex]="i"
+        [questionIndex]="j"
+      ></app-edit-survey-form-container>
+    </div>
+    <div *ngIf="question.weightage" class="row px-3 my-2">
+      <div class="col nopadding">
+        <!-- <span style="margin-right: 15px;" *ngIf="question.docAttachment!=='No'">
+          <i style="color: '#f66b87';" title="Attach File mandatory for question" class="fas fa-file" ></i><span> File {{question.docAttachment!=='Yes'?"optional":'mandatory'}}</span>
+        </span>
+        <span *ngIf="question.imageAttachment!=='No'">
+          <i style="color:'#f66b87';" title="Attach Image mandatory for question"    class="fas fa-camera" ></i><span> Image {{question.imageAttachment!=='Yes'?"optional":'mandatory'}}</span>
+        </span> -->
+        <textarea type="text" readonly style="width: 65%;
+        height: 30px;
+        resize: unset;
+        background-color: #f1f1f1;
+        border: 1px solid #dbdbdb;
+        border-radius: 5px;"></textarea>
+        <span style="margin-right: 0;float: right;">Max Weightage :
+          <span class="font-weight-light">{{ question.weightage }}</span></span
+        >
+        <!-- <span
+          >Question Type :
+          <span class="font-weight-light">{{ question.questionType }}</span></span
+        > -->
+      </div>
+    </div>
+    <div class="question" *ngIf="question.options.length > 0" class="my-2">
+      <div *ngFor="let option of question.options" class="row px-3 my-2">
+        <div *ngIf="question.questionType=='Check-Box'" class="col-1">
+          <input type="checkbox" disabled="true" style="margin-top:1px;" />
+        </div>
+        <div *ngIf="question.questionType!=='Check-Box'" class="col-1">
+          <span class="font-weight-bold">{{ option.optionId + ". " }}</span>
+        </div>
+        <div class="col">
+          <span class="">{{ option.optionData }}</span>
+        </div>
+        <div class="col nopadding">
+          <span style="margin-right: 0;float: right;">Weightage :
+            <span class="font-weight-light">{{
+              option.optionweightage < 10
+                ? "0" + option.optionweightage
+                : option.optionweightage
+            }}</span></span
+          >
+        </div>
+      </div>     
+    </div>
+    <div style="padding-bottom: 1.5em;">
+      <span style="margin-right: 15px;" *ngIf="question.docAttachment!=='No'">
+        <i style="color: '#f66b87';" title="Attach File mandatory for question" class="fas fa-file" ></i><span> File <i><b>{{question.docAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+      </span>
+      <span *ngIf="question.imageAttachment!=='No'">
+        <i style="color:'#f66b87';" title="Attach Image mandatory for question"    class="fas fa-camera" ></i><span> Image <i><b>{{question.imageAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="container text-center">
+  <div class="flex-row justify-content-center">
+    <span *ngIf="!toggleDisplayIcon" class="text-secondary"
+      >Show Questions
+      <i
+        *ngIf="!toggleDisplayIcon"
+        class="fas fa-chevron-circle-down ml-1 mt-1"
+        data-toggle="collapse"
+        [attr.data-target]="'#question-set' + i"
+        (click)="toggleDisplayIcon = true"
+      ></i
+    ></span>
+    <span *ngIf="toggleDisplayIcon" class="text-secondary">
+      Hide Questions<i
+        *ngIf="toggleDisplayIcon"
+        class="fas fa-chevron-circle-up ml-2 mt-1"
+        data-toggle="collapse"
+        [attr.data-target]="'#question-set' + i"
+        [attr.aria-expanded]="false"
+        [attr.aria-controls]="'question-set' + i"
+        (click)="toggleDisplayIcon = false"
+      ></i>
+    </span>
+  </div>
+</div>

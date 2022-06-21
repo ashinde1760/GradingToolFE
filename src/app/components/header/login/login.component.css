@@ -1,0 +1,69 @@
+.contain {
+  margin-top: 40%;
+}
+/* #btn {
+  background-image: linear-gradient(#e0a91d, #f1e70c);
+  width: 180px;
+  border-style: hidden;
+  justify-content: center;
+  color: white;
+  padding: 5px 5px 5px 5px;
+} */
+
+#display-icon {
+  font-size: 80px;
+  color: darkgray;
+}
+
+.input-group .input-group-addon {
+  border: 0;
+  background: white;
+  pointer-events: none;
+}
+
+.otp-model-container, .password-change-container{
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 1.5rem;
+  background-color: white;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+}
+
+.otp-model-container .otp-model, .password-change-container .pass-model{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+}
+
+.warning{
+  color: red;
+  font-size: 0.65rem;
+}
+
+.changePassword-confirmation-model{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+}
+
+.changePassword-confirmation-model .messageBox{
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+  margin-top: 5vh;
+}
+
+.changePassword-confirmation-model .messageBox h4{
+  color: green;
+}
+
+.changePassword-confirmation-model .messageBox h5{
+  color: black;
+}

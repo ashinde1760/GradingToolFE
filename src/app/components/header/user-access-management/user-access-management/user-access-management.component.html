@@ -1,0 +1,230 @@
+<div class="user-data">
+  <app-heading [title]="'User Access Management'"></app-heading>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Upload Data</h5>
+           
+          <button type="button" class="close" (click)="closeModal()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <form>
+              <div style="display: flex;flex:1;flex-direction:column;">
+                <input required style="margin-top: 15px;" type="file"  
+                (change)="onFileUpload($event)" #input />
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+        
+          <button type="button" (click)="uploadFile()" aria-hidden="true"  class="btn btn-primary" data-dismiss="modal" >Upload
+            
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:2%;" class="row px-2">
+    <div class="col form-inline">
+      <form class="filter-control">
+        <input placeholder="Filter By First Name" type="text" class="advancedSearchTextbox" #firstName (input)="setApply(firstName.value, phoneNo.value, role.value)"/>
+        <input placeholder="Filter By Phone Number" type="text" class="advancedSearchTextbox" #phoneNo (input)="setApply(firstName.value, phoneNo.value, role.value)" />
+        <select class="advancedSearchTextbox" required #role (input)="setApply(firstName.value, phoneNo.value, role.value)">
+          <option value="" selected hidden>Filter By Role</option>
+          <option value="Center-In-Charge">Center-In-Charge</option>
+          <option value="Field-Auditor">Field-Auditor</option>
+          <option value="Client-Sponsor">Client-Sponsor</option>
+          <option value="Admin">Admin</option>
+        </select>
+        <button [disabled]="isApplyDisabled" type="submit" class="btn btn-outline-secondary btn-sm" (click)="filetrBy(firstName.value,phoneNo.value,role.value)" style="margin:5px;">Apply</button>
+        <button type="reset" class="btn btn-outline-secondary btn-sm"(click)="listUser()">Reset</button>
+      </form>
+    </div>
+    <div class="col-sm-4 d-flex justify-content-end">
+      <div>
+        <button class="btn btn-outline-secondary btn-sm" [disabled]="checkedRows > 0" (click)="addNew()" style="margin-right: 20px;">
+          <i class="fas fa-plus"></i>
+          Add Single User
+        </button>
+      </div>
+      <div (mouseenter)="changeshowUploadOptions()" (mouseleave)="changeshowUploadOptions()">
+        <button class="btn btn-outline-secondary btn-sm" style="margin-right: 20px;" [disabled]="checkedRows > 0">
+          <i class="fas fa-cloud-upload-alt"></i>
+          Upload User File
+        </button>
+        <div style="position: absolute; right:33px; width: 150px;" [@mediaOption]="showuploadOptions? 'expanded' : 'collapsed'" >
+          <!-- [@mediaOption]="showFileOptions? 'expanded' : 'collapsed'" -->
+          <!-- <div> -->
+            <button style="width:100%" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-outline-secondary btn-sm ml-1" [disabled]="checkedRows > 0"> 
+              Upload File
+            </button>
+          <!-- </div> -->
+          <!-- <div> -->
+            <button style="width:100%" class="btn btn-outline-secondary btn-sm ml-1" (click)="downloadFile()" [disabled]="checkedRows > 0">
+              Download Template 
+            </button>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row clearfix mx-auto mt-3" style="float: left;margin-top:2%; margin-left: 1.5vw !important;">
+    <div class="mx-auto" style="overflow: auto;width: 80vw; height: 65vh">
+      <form>
+        <div class="edit-header">
+          <input type="checkbox" class="selectall" (change)="selectAll($event)" *ngIf="!enableEdit" [checked]="isAllButtonChecked" />
+          <i class="fas fa-trash mx-1 text-danger" aria-hidden="true" (click)="onDelete($event)" *ngIf="checkedRows!=0&&!enableEdit"></i>
+          <i class="fas fa-user-edit mx-2" *ngIf="checkedRows === 1&&!(enableEdit)" (click)="onEdit($event)"></i>
+          <button  *ngIf="enableEdit || !isNew" id="saveBtn" class="btn page-primary-action-btn" (click)="editUser($event)" type="submit">
+            <i class="fas fa-save"></i>
+          </button>
+          <button *ngIf="!isNew || enableEdit" class="btn page-secondary-action-btn" (click)="cancel($event)">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+      <table class="table">
+        <thead style="font-size: span">
+          <tr class="text-center border border-left-0 border-right-0 border-top-0">
+            <!-- <th class="text-center">Actions</th> -->
+            <th class="text-center">Select</th>
+            <th class="text-center">First Name</th>
+            <th class="text-center">Last Name</th>
+            <th class="text-center">Phone</th>
+            <th class="text-center">EmailId</th>
+            <th class="text-center">Role</th>
+            <th class="text-center">Active/InActive</th>
+          </tr>
+        </thead>
+        <tbody id="table">
+          <tr *ngFor="let user of users; let i = index"
+            class="text-center border border-left-0 border-right-0 border-top-0">
+            <!-- <td class="p-1">
+              <button *ngIf="isNew && enableEdit && enableEditIndex == i" class="btn page-secondary-action-btn"
+                (click)="cancel(i)">
+                <i class="fa fa-times"></i>
+              </button>
+              <button *ngIf="enableEdit && enableEditIndex == i" id="saveBtn" class="btn page-primary-action-btn"
+                (click)="saveSegment(firstName.value,lastName.value,phone.value,email.value,role.value,user.userId)" type="submit">
+                <i class="fas fa-save"></i>
+              </button>
+              <i class="fas fa-user-edit mx-2" *ngIf="!(enableEdit && enableEditIndex == i)"
+                (click)="enableEditMethod(i)"></i>
+              <i *ngIf="!(enableEdit && enableEditIndex == i)"(click)="deleteFieldValue(user.userId,i)" class="fas fa-trash mx-1 text-danger" aria-hidden="true"></i>
+            </td> -->
+            <td class="text-center checkbox"><input type="checkbox" (change)="onChecked($event)" [checked]="enableEdit&&!this.isNew&&i==0"  [id]="i" [disabled]="enableEdit" /></td>
+            <td (mouseover)="fnameindex=i" (mouseleave)="fnameindex=null" class="p-1">
+              <input type="text" value={{user.firstName}} name="firstName" [disabled]="!(enableEdit && enableEditIndex == i)" [ngStyle]="(user.firstName>14 && fnameindex==i && enableEditIndex !== i ) ? {'width':'200px','position':'absolute','z-index':4,'top':'auto','box-shadow': 'rgba(0, 0, 0, 0.1) 1px 1px 4px'}:{'width':'200px'}"
+                class="form-control form-control-sm text-center select-width" maxlength="25" required #firstName/>
+            </td>
+            <td (mouseover)="lnameindex=i" (mouseleave)="lnameindex=null" class="p-1">
+              <input type="text" value={{user.lastName}} name="lastName" [disabled]="!(enableEdit && enableEditIndex == i)"  [ngStyle]="(user.lastName>14 && lnameindex==i && enableEditIndex !== i ) ? {'width':'200px','position':'absolute','z-index':4,'top':'auto','box-shadow': 'rgba(0, 0, 0, 0.1) 1px 1px 4px'}:{'width':'200px'}"
+                class="form-control form-control-sm text-center select-width" maxlength="25" #lastName/>
+            </td> 
+            <td class="p-1">
+              <input type="tel" value={{user.phone}} name="phone" [disabled]="!(enableEdit && enableEditIndex == i)"
+                class="form-control form-control-sm text-center select-width" maxlength="10" #phone/>
+            </td>
+            <td (mouseover)="emailindex=i" style="position: relative;display: flex;justify-content: center;" (mouseleave)="emailindex=null" class="p-1">
+                <input type="email" value={{user.email}} name="email" tooltip={{user.email}} [disabled]="!(enableEdit && enableEditIndex == i )" 
+                  class="form-control form-control-sm text-center select-width" maxlength="100" required #email (mouseover)="emailHover=true" (mouseleave)="emailHover=false"/>
+                <span [ngStyle]="( !enableEdit && emailindex==i && enableEditIndex !== i ) ? {'width':'auto','position':'absolute','z-index':4,'top':'auto','box-shadow': 'rgba(0, 0, 0, 0.3) 1px 1px 4px', 'display':'block', 'background-color':'white','padding': '5px 10px','border-radius': '5px'}:{'display':'none'}">{{user.email}}</span>
+            </td>
+            <td class="p-1">
+                <select class="form-control form-control-sm text-center select-width" name="role" [value]="user.role" [disabled]="!(enableEdit && enableEditIndex == i)" required #role>
+                  <!-- <option selected hide>{{user.role}}</option> -->
+                  <option value="Center-In-Charge">Center-In-Charge</option>
+                  <option value="Field-Auditor">Field-Auditor</option>
+                  <option value="Client-Sponsor">Client-Sponsor</option>
+                  <option value="Admin">Admin</option>
+              </select>
+            </td>
+            <td class="p-1">
+              <label class="switch" *ngIf="user.status === 'active' || user.status === 'disable'">
+                <input type="checkbox" id="togBtn" [checked]="user.status === 'active'" (click)="changeStatus($event, user.userId)"/>
+                <div class="slider round">
+                  <span class="on">Active</span><span class="off">InActive</span>
+                </div>
+              </label>
+              <input *ngIf="user.status === 'Un-Verified'" type="text" value="Un-Verified" disabled
+              class="form-control form-control-sm text-center select-width" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    </div>
+  </div>
+  <!-- <div id="alert" class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="successMessage$ | async as successMessage">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong>{{" "+successMessage}}
+  </div>
+  
+  <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage$ | async as errorMessage">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Error!</strong>{{ " "+errorMessage.errorMessage }}
+  </div> -->
+  <div class="justify-content-center align-items-center text-center">
+    <app-auth-spinner *ngIf="isLoading"></app-auth-spinner>
+  </div>
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show" *ngIf="showError">
+  <a href="#" class="close" aria-label="close">&times;</a>
+  Please provide valid Phone Number
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show" *ngIf="showEmailError">
+  <a href="#" class="close" aria-label="close">&times;</a>
+  Please provide valid Email Address
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show" *ngIf="showFialedMsg">
+  <a href="#" class="close" aria-label="close">&times;</a>
+  Please provide FirstName
+</div>
+
+<div *ngIf="isFailedDataTableOpened" class="failed-upload-table">
+  <div class="cross-btn" (click)="closeFailedDataTable()">
+    <i class="fa fa-times" aria-hidden="true"></i>
+  </div>
+  <div class="heading">
+    Failed Data
+  </div>
+  <div class="heading-sec">
+    <div class="left-column">
+      Failed data count: {{failedUploadData.failedRecordCount}}
+    </div>
+    <div class="right-column">
+      Processed data count: {{failedUploadData.totalRecordsProcessed}}
+    </div>
+  </div>
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr class="text-center border border-left-0 border-right-0 border-top-0 padding-0">
+          <th class="text-center">Row Number</th>
+          <th class="text-center">first Name</th>
+          <th class="text-center">User Role</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">ErrorMsg</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of failedUploadData.failedRecords" class="text-center border border-left-0 border-right-0 border-top-0">
+          <td class="p-1">{{data.rowNumber}}</td>
+          <td class="p-1">{{data.firstName}}</td>
+          <td class="p-1">{{data.userRole}}</td>
+          <td class="p-1">{{data.email}}</td>
+          <td class="p-1">{{data.errorMsg}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

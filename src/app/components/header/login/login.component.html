@@ -1,0 +1,137 @@
+<div  class="col-3 m-auto">
+  <div class="contain shadow p-3" *ngIf="!isLoading">
+    <form (ngSubmit)="onSubmit()" [formGroup]="login" class="form-group">
+      <div class="text-center mb-3">
+        <i class="fas fa-user-circle" id="display-icon"></i>
+      </div>
+      <div class="input-group">
+        <!-- <label class="">Username</label> -->
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="far fa-user"></i></span>
+        </div>
+        <input class="form-control form-control-sm" formControlName="email" placeholder="username" type="text" required />
+      </div>
+      <div class="my-3 input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fas fa-lock"></i>
+          </span>
+        </div>
+        <input class="form-control form-control-sm" formControlName="password" placeholder="password" type="password"
+          required />
+      </div>
+      <div class="alert alert-danger alert-dismissible fade show" *ngIf="showErrorMessage">
+        <a href="#" class="close" aria-label="close">&times;</a>
+        Please provide Credentials
+      </div>
+      <div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert"
+        *ngIf="errorMessage$ | async as errorMessage">
+        <a href="/auth" class="close" aria-label="close">&times;</a>
+        {{ " "+errorMessage.errorMessage }}
+      </div>
+      <div class="text-center">
+        <button class="btn btn-outline-secondary btn-sm" id="btn" type="submit" [disabled]="!login.valid">
+          <span>SUBMIT</span>
+        </button>
+      </div>
+      <div class="text-center mt-2">
+        <a class="col text-secondary" style="font-size: 13px; cursor: pointer;" (click)="onForgotPasswordStart()">Forgot password</a>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!isDisableOtpModel" class="otp-model-container">
+    <div class="otp-model">
+      <form (ngSubmit)="onOTPValidate()" [formGroup]="otpValidate" class="form-group">
+        <div class="text-center mb-3">
+          <i class="fas fa-user-circle" id="display-icon"></i>
+        </div>
+        <div></div>
+        <div class="input-group" style="margin-top: 15px;">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
+          </div>
+          <input class="form-control form-control-sm" formControlName="mobileOTP" placeholder="Mobile OTP" type="text" required />
+        </div>
+        <div class="input-group" style="margin-top: 15px;">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
+          </div>
+          <input class="form-control form-control-sm" formControlName="emailOTP" placeholder="Email OTP" type="text" required />
+        </div>
+        <div class="text-center" style="margin-top: 15px;">
+          <button class="btn btn-outline-secondary btn-sm" id="btn" type="submit" [disabled]="!otpValidate.valid">
+            <span>NEXT</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div *ngIf="isEnablePasswordChangeModel" class="password-change-container">
+    <div class="pass-model" *ngIf="showChangePasswordModel">
+      <form (ngSubmit)="onChangePassword()" [formGroup]="changePassword" class="form-group">
+        <div class="text-center mb-3">
+          <i class="fas fa-user-circle" id="display-icon"></i>
+        </div>
+        <div></div>
+        <div class="input-group" style="margin-top: 15px;">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
+          </div>
+          <input class="form-control form-control-sm" formControlName="newPassword" placeholder="Password" type="password" required />
+        </div>
+        <div class="input-group" style="margin-top: 15px;">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
+          </div>
+          <input class="form-control form-control-sm" appConfirmEqualValidator="newPassword" formControlName="newConfirmPassword" placeholder="Confirm Password" type="password" required />
+        </div>
+        <span class="warning" *ngIf="changePassword.get('newConfirmPassword').touched && changePassword.get('newConfirmPassword').errors?.notEqual">New Password and Confirm Password does not match</span>
+        <div class="text-center" style="margin-top: 15px;">
+          <button class="btn btn-outline-secondary btn-sm" id="btn" type="submit" [disabled]="!changePassword.valid">
+            <span>SUBMIT</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  
+    <div class="changePassword-confirmation-model" *ngIf="!showChangePasswordModel">
+      <div class="messageBox">
+        <h4>You Have been successfully changed the password.</h4>
+        <h5>Please Login....</h5>
+      </div>
+      <div class="text-center" style="margin-top: 3vh;" (click)="closePasswordGreet()">
+        <button class="btn btn-outline-secondary btn-sm" id="btn">
+          <span>CLOSE</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="forgotPasswordStart" class="password-change-container">
+    <div class="pass-model">
+      <form (ngSubmit)="fpRequestOTP()" [formGroup]="forgetPassword" class="form-group">
+        <div class="text-center mb-3">
+          <i class="fas fa-user-circle" id="display-icon"></i>
+        </div>
+        <div></div>
+        <div class="input-group" style="margin-top: 15px;">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
+          </div>
+          <input class="form-control form-control-sm" formControlName="email" placeholder="Email/Username" type="email" required />
+        </div>
+        <div class="text-center" style="margin-top: 15px;">
+          <button class="btn btn-outline-secondary btn-sm" id="btn" type="submit" [disabled]="!forgetPassword.valid">
+            <span>NEXT</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+  
+  
+  <div class="justify-content-center align-items-center text-center">
+    <app-auth-spinner *ngIf="isLoading" style="height: 100vh;"></app-auth-spinner>
+  </div>

@@ -1,0 +1,74 @@
+<div style="height: 81.5vh">
+  <app-heading [title]="'Manage Rating Form'"></app-heading>
+  <!-- section content height 82vh -->
+  <div  class="row m-auto justify-content-center" >
+    <div class="col-12 nopadding">
+      <form [formGroup]="util.surveyForm">
+        <div style="width:90%;margin-left: 65px;height:40px;display: flex;flex-direction: row;justify-content: space-between;"  >
+          <div class="col-4">
+            <div style="display: flex;flex-direction: row;">
+              <p style="color: darkorange;font-size: medium;">Form Name : </p><span style="margin-left: 5px;font-size: 15px;display: flex">{{selectedFormName}}</span>
+            </div>
+        </div>
+        <!-- <button class="btn btn-outline-secondary btn-sm w-20 h-60" (click)="goToManageForms()" style="margin-right: 15px;">Back To Manage Forms</button> -->
+        <div class="col-2">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-sm w-100"
+            value="New Section"
+            (click)="addNewSection()"
+          >
+            <i class="fas fa-plus-circle text-info mr-2"></i>New Section
+          </button>
+        </div>
+          </div>
+          <div  style="padding-top: 5px;width:90%;margin-left: 65px;height:40px;display: flex;flex-direction: row;justify-content: space-between;" class="row ">
+          <div class="col-3">
+            <div style="display: flex;flex-direction: row">
+              <p style="color: darkorange;font-size: medium;">Total Marks : </p><span style="margin-left: 5px;font-size: 15px;">{{util.surveyForm.get('formTotalMark').value}} </span>
+            </div>
+          </div>
+          <!-- <div class="col-3">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm w-100"
+              value="New Section"
+              (click)="addNewSection()"
+            >
+              <i class="fas fa-plus-circle text-info mr-2"></i>New Section
+            </button>
+          </div> -->
+          <div class="col-8 text-center">
+            <div *ngIf="util.surveyForm.get('surveyData').value.length !== 0" style="display: flex;flex-direction: row;justify-content: flex-end;">
+              <span *ngIf="sectionRef?!sectionRef.valid:null" style="color: red;font-size: small;margin-right: 4px;" >*Give section name</span>
+                <input placeholder="Section Name" type="text" style="width: 200px;margin-right: 15px;" [style.borderColor]="sectionRef?sectionRef.valid?null:'red':null" (change)="changeSectionName($event,inputSection)" [value]="util.surveyForm.get('surveyData').value[targetedSectionIndex][3]" #inputSection class="form-control form-control-sm">
+              
+              <select
+              style="width:160px"
+                *ngIf="util.surveyForm.get('surveyData').value.length !== 0"
+                class="form-control form-control-sm text-center"
+                (change)="targetSectionChange($event)"
+              >
+                <option
+                  *ngFor="
+                    let section of util.surveyForm.get('surveyData').value;
+                    let i = index
+                  "
+                  [value]="i"
+                  [attr.selected]="
+                    i + 1 === util.surveyForm.get('surveyData').value.length
+                  "
+                >
+                  {{section[0]}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div >
+        <app-projects ></app-projects>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,234 @@
+<div [formGroup]="util.surveyForm" >
+  <div class="row">
+    <!-- <div class="col-2">
+      <label class="">Q No</label>
+      <label class="ml-2 mt-1">{{ questionNumber }}</label>
+    </div> -->
+    <div>
+      
+    </div>
+    <div class="col">
+      <!-- <label>Question Type</label> -->
+      <select
+        class="form-control form-control-sm"
+        (change)="detectQuestionType($event)"
+        formControlName="questionType"
+      >
+        <option selected disabled>Question Type</option>
+        <option value="Multiple choice">Multiple Choice</option>
+        <option value="Open-ended">Open Ended</option>
+        <option value="Dropdown">Dropdown</option>
+        <option value="Check-Box">Check Box</option>
+      </select>
+    </div>
+    <div class="col">
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        formControlName="question"
+        placeholder="Title, eg : Name of your first pet?"
+        required
+      />
+
+      <span *ngIf="util.surveyForm.get('question').invalid&&!util.surveyForm.get('question').untouched"  style="color: red;font-size: small;">*please fill the mandatory fields</span>
+    </div>
+           
+  </div>
+
+  <!-- <div
+    class="h-50 mx-auto my-5 w-75 create-question-help p-3"
+    *ngIf="!util.surveyForm.touched"
+  >
+    <p>
+      <i class="far fa-star fa-spin mr-auto text-info"></i
+      ><samp>
+        To Create a Section : New Section -> Select Section -> Proceed to Create
+        Question
+      </samp>
+    </p>
+    <br />
+    <p>
+      <i class="far fa-star fa-spin mr-auto text-info"></i
+      ><samp>
+        To Create a Question : Select Section -> Select Question Type -> Proceed
+        to Create Question
+      </samp>
+    </p>
+    <br />
+  </div> -->
+
+  <div class="row py-2">
+    <!-- <div class="col">
+      <div>
+        <input
+          type="checkbox"
+          class="form-check-input"
+          (change)="toggleShowAttchmentBox($event)"
+          formControlName="attachmentRequired"
+        />
+        <label>Question requires Attachment</label>
+
+        <select class="form-control form-control">
+          <option selected disabled>Question Attachment Type</option>
+          <option value="null">Not Required</option>
+          <option value="PDF">PDF</option>
+          <option value="Photo">Photo</option>
+          <option value="ZIP Archive">ZIP Archive</option>
+        </select>
+      </div>
+    </div> -->
+    <div class="col">
+      <!-- <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="isMandatory"
+        value="yes"
+      />
+      <label>This Question is Mandatory</label> -->
+      <div *ngIf="showOptionCreator | async">
+        <!-- <label *ngIf="showOptionCreator">Choose Option Id Style</label> -->
+        <select
+          class="form-control form-control-sm"
+          (change)="detectOptionIdStyle($event)"
+        >
+          <option disabled selected>Choose Option Id Style</option>
+          <option value="uppercase alphabet">
+            Uppercase Alphabet (A,B,C,D...)
+          </option>
+          <option value="lowercase alphabet">
+            Lowercase Alphabet (a,b,c,d...)
+          </option>
+          <option value="lowercase roman">
+            Lowercase roman (i,ii,iii,iv...)
+          </option>
+          <option value="uppercase roman">
+            Uppercase roman (I,II,III,IV...)
+          </option>
+          <option value="numeric">Numeric (1,2,3,4...)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- <div class="col">
+      <div class="d-flex align-content-center">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          (change)="toggleDependentQuestionBox($event)"
+        />
+        <label>Question has Linked Questions</label>
+      </div>
+      <div *ngIf="showDependentQuestionBox">
+        <label>Linked Questions</label>
+        <input type="text" class="form-control form-control-sm" />
+      </div>
+    </div> -->
+  </div>
+
+  <div *ngIf="showOptionCreator | async">
+    <div class="row">
+      <label class="col-1">Id</label>
+      <label style="text-align: center;" class="col-4">Data</label>
+      <label style="text-align: center;" class="col-2">Weightage</label>
+      <label style="text-align: center;" class="col-4">Input Field</label>
+    </div>
+
+    <div class="review-option">
+      <app-review-options [optionIdType]="optionIdType"></app-review-options>
+    </div>
+    <hr> 
+    <!-- <div style="margin-right: 5px" class="mt-1">
+      <div class="row" formGroupName="option">
+        <div class="col-1 "> -->
+          <!-- <p class="ml-0">
+            {{ optionId }}
+          </p> -->
+        <!-- </div>
+        <div class="col-4">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="optionData"
+            required
+          />
+        </div>
+        <div class="col-2">
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            formControlName="optionweightage"
+            id="optionweightage"
+            required
+          />
+        </div>
+        <div class="col-4">
+          <select
+            class="form-control form-control-sm"
+            formControlName="inputFieldRequired"
+          >
+            <option
+              *ngFor="let optionInputFieldType of util.optionInputFieldTypes"
+              [value]="optionInputFieldType"
+            >
+              {{ optionInputFieldType }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div> -->
+    <div class="text-center mt-2">
+      <button
+      type="button"
+      value="Add Option"
+      (click)="addNewOption()"
+      *ngIf="showOptionCreator"
+      class="btn btn-sm btn-outline-primary"
+      >
+      <i class="fas fa-plus-circle text-info mr-2"></i>Add Option
+    </button>
+  </div>
+ 
+  </div>
+
+  <div *ngIf="showOpenEndedResponseTypeBox | async" class="row text-center">
+    <div class="col">
+      <label>Choose Input Field Type</label>
+      <select
+        class="form-control form-control-sm"
+        formControlName="inputfieldRequried"
+        
+      >
+        
+        <option
+          *ngFor="let type of openEndedQuestionResponseTypes"
+          [value]="type"
+        >
+          {{ type }}
+        </option>
+      </select>
+    </div>
+    <div class="col">
+      <label>Question Weightage</label>
+      <input
+        type="number"
+        class="form-control form-control-sm text-center"
+        formControlName="weightage"
+        id="weightage"
+        required
+      />
+      <span *ngIf="util.surveyForm.get('weightage').invalid&&!util.surveyForm.get('weightage').untouched"  style="color: red;font-size: small;">*please fill the mandatory fields</span>
+    </div>
+  </div>
+  <!-- <div style="display: flex;justify-content: space-evenly;align-items: center;flex-direction: row;">
+    <div class="col">
+    <input type="checkbox" class="form-check-input" (change)="acceptAttachment('Document')"
+    formControlName="attachmentRequired" />
+    <label>Question requires Attachment</label>
+    </div>
+    <div class="col">
+    <input type="checkbox" class="form-check-input" (change)="acceptAttachment('Image')"
+    formControlName="attachmentRequired" />
+    <label>Question requires Photo</label>
+    </div>
+    </div> -->
+</div>

@@ -1,0 +1,147 @@
+<div class="report-container" *ngIf="formObj !== null">
+    <div class="main-heading">Partner Report </div>
+    <div class="container-body">
+      <div class="project-data-grid">
+        <div class="two-column-grid">
+          <div class="first-grid">
+            <div class="single-flex-container">
+              <div class="li label1">Project Name :</div>
+              <div class="li p-name">{{formObj.reportHeader.projectName}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label1">Name of PIA :</div>
+              <div class="li pia-name">{{formObj.reportHeader.PIA}}</div>
+            </div>
+          </div>
+          <div class="second-grid">
+            <div class="single-flex-container">
+              <div class="li label2">Partner SPOC phone :</div>
+              <div class="li phone">{{formObj.reportHeader.partnerSPOCPhone}}</div>
+            </div>
+            <div class="single-flex-container">
+              <div class="li label2">Partner SPOC Email ID :</div>
+              <div class="li email">{{formObj.reportHeader.partnerSPOCEmailId}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="two-column-grid">
+          <div class="first-grid">
+            <div class="single-flex-container">
+              <div class="li label1">Partner SPOC name :</div>
+              <div class="li spoc-name">{{formObj.reportHeader.partnerSPOCName}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="warning"  *ngIf="formObj.warning != ''">
+        <h5><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Warning!</h5>
+        <span>{{formObj.warning}}</span>
+      </div>
+      <div id="summery-audit-tb">
+        <div class="table-container" style="margin-top: 2vh;">
+          <div class="sub-heading-type1">
+            Audit Summary
+          </div>
+          <table class="summery-scorcard-table">
+            <tr>
+              <th>#</th>
+              <th>Field Auditor Name</th>
+              <th>Secondary Auditor Name</th>
+              <th>Date of Audit </th>
+              <th>Form Name</th>
+              <th>Training Center / Grading Form</th>
+            </tr>
+            <tr *ngFor="let audit of formObj.reportHeader.audits;  let i=index">
+              <td>{{i}}</td>
+              <td>{{audit.fieldAuditorName}}</td>
+              <td>{{audit.secondaryAuditorName}}</td>
+              <td>{{audit.auditDate}}</td>
+              <td>{{audit.formName}}</td>
+              <td>{{audit.tcName}}</td>
+            </tr>         
+          </table>
+        </div>
+      </div>
+      <div id="summery-repor-tb">
+        <div class="table-container">
+          <div class="sub-heading-type1">
+            Summary Report
+          </div>
+          <table class="summery-scorcard-table">
+            <tr>
+              <th>#</th>
+              <th>PIA Name</th>
+              <th>Centre Rating</th>
+              <th>Project Grading</th>
+              <th>Final %age</th>
+              <th>Grade</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>{{formObj.reportHeader.PIA}}</td>
+              <td>{{formObj.reportBody.summaryReport.centerRating}}</td>
+              <td>{{formObj.reportBody.summaryReport.projectGrading}}</td>
+              <td>{{formObj.reportBody.summaryReport.finalAvg}}</td>
+              <td>{{formObj.reportBody.summaryReport.grade}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="center-rt-summery-tb">
+        <div class="table-container">
+          <div class="sub-heading-type1">
+            Center Rating Summary
+          </div>
+          <table class="summery-scorcard-table">
+            <tr>
+              <th>Training Center</th>
+              <th>TC Address</th>
+              <th>TC SPOC</th>
+              <th>SA Score</th>
+              <th>FA Score</th>
+              <th>Max marks</th>
+            </tr>
+            <tr *ngFor='let centerRating of formObj.reportBody.centerRatingSummary'>
+              <td>{{centerRating.trainingCenter}}</td>
+              <td>{{centerRating.TCAddress}}</td>
+              <td>{{centerRating.TCSPOCName}}</td>
+              <td>{{centerRating.SAScore}}</td>
+              <td>{{centerRating.FAScore}}</td>
+              <td>{{centerRating.maxMarks}}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td></td>
+              <td></td>
+              <td>{{SAScoreTotal}}</td>
+              <td>{{FAScoreTotal}}</td>
+              <td>{{maxMarksTotal}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="prtner-grd-summery-tb">
+        <div class="table-container">
+          <div class="sub-heading-type1">Partner Grading Summary</div>
+          <table class="summery-scorcard-table">
+            <tr>
+              <th>PIA Name</th>
+              <th>Partner SPOC(performed by)</th>
+              <th>SA Score</th>
+              <th>FA Score</th>
+              <th>Max marks</th>
+            </tr>
+            <tr>
+              <td>{{formObj.reportHeader.PIA}}</td>
+              <td>{{formObj.reportHeader.partnerSPOCName}}</td>
+              <td>{{formObj.reportBody.partnerGradingSummary.SAScore}}</td>
+              <td>{{formObj.reportBody.partnerGradingSummary.FAScore}}</td>
+              <td>{{formObj.reportBody.partnerGradingSummary.maxMarks}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

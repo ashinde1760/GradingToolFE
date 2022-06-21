@@ -1,0 +1,17 @@
+.chart {
+  font-family: Georgia;
+  font-size: 14px;
+}
+.happy {
+  background-color: lightgreen;
+}
+.modrate-happy {
+  background-color: orange;
+}
+.not-happy {
+  background-color: red;
+}
+
+.custom-font-size {
+  font-size: 13px;
+}

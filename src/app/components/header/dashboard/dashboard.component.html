@@ -1,0 +1,162 @@
+<div>
+  <app-heading [title]="'Dashboards'"></app-heading>
+  <div class="">
+    <div class="row nopadding">
+      <div class="col text-center border py-1">
+        <span class="font-weight-bolder">Partners covered: </span> <br />
+        20/25
+      </div>
+      <div class="col text-center border border-left-0 py-1">
+        <span class="font-weight-bolder"> Centre's covered: </span> <br />
+        54/75
+      </div>
+      <div class="col text-center border border-left-0 py-1">
+        <span class="font-weight-bolder"> Top partner: </span> <br />ABC
+      </div>
+      <div class="col text-center border border-left-0 py-1">
+        <span class="font-weight-bolder"> Bottom partner: </span> <br />XYZ
+      </div>
+    </div>
+    <div class="row nopadding justify-content-between align-content-center">
+      <div class="col border border-left-0 border-bottom-0 border-top-0">
+        <div class="row my-2">
+          <div
+            class="col-3 text-center align-self-center mx-2 font-weight-bold"
+          >
+            Partner
+          </div>
+          <div class="col mr-2">
+            <div
+              class="row justify-content-center py-2 border border-left-0 border-right-0 border-top-0 font-weight-bold"
+            >
+              Internal Matrics
+            </div>
+            <div class="row">
+              <div class="col text-center p-0 custom-font-size">
+                Q3 FY 17 <br /><span class="font-italic">july'16-Dec'16</span>
+              </div>
+              <div class="col text-center custom-font-size">
+                Q1 FY 17 <br /><span class="font-italic">jan'16-jun'16</span>
+              </div>
+              <div class="col-3 text-center custom-font-size">
+                Progress Indicator
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-3 ml-2">Partner 1</div>
+          <div class="col text-danger mx-2">73%</div>
+          <div class="col text-success mr-2">80%</div>
+          <div class="col-2 mr-2">
+            <i
+              class="fas fa-long-arrow-alt-down text-danger font-weight-bold"
+            ></i>
+          </div>
+        </div>
+        <div class="row text-center my-2">
+          <div class="col-3 ml-2">Partner 2</div>
+          <div class="col text-danger mx-2">70%</div>
+          <div class="col text-danger mr-2">60%</div>
+          <div class="col-2 mr-2">
+            <i class="fas fa-long-arrow-alt-up text-danger"></i>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-3 ml-2">Partner 3</div>
+          <div class="col text-danger mx-2">70%</div>
+          <div class="col text-success mr-2">100%</div>
+          <div class="col-2 mr-2">
+            <i class="fas fa-long-arrow-alt-down text-danger"></i>
+          </div>
+        </div>
+        <div class="row text-center align-items-center my-2">
+          <div class="col-3 ml-2">Partner 4</div>
+          <div class="col text-success mx-2">100%</div>
+          <div class="col text-danger mr-2">55%</div>
+          <div class="col-2 mr-2">
+            <i class="fas fa-long-arrow-alt-up text-success"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <!-- mock chart graph -->
+        <google-chart
+          [title]="'Average Score'"
+          [type]="chartType"
+          [data]="data"
+          [dynamicResize]="true"
+          style="height: 80%; width: 100%; margin-top: 4%"
+        >
+        </google-chart>
+
+        <!-- mock chart graph -->
+      </div>
+    </div>
+    <div class="row nopadding">
+      <div class="col p-4 border border-bottom-0">
+        <h5 class="text-center">Performance Summary for Q1:</h5>
+        <div class="col px-5 mt-4">
+          <div class="row">
+            <div class="col">
+              <p class="font-italic py-1 pl-4 happy">Meets Expectations</p>
+            </div>
+            <div class="col-sm-1 score-box">15</div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="font-italic py-1 pl-4 modrate-happy">
+                Minor enhancement needed
+              </p>
+            </div>
+            <div class="col-sm-1 score-box">3</div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="font-italic py-1 pl-4 not-happy text-white">
+                Needs Severe Improvement
+              </p>
+            </div>
+            <div class="col-sm-1 score-box">2</div>
+          </div>
+        </div>
+      </div>
+      <div class="col p-4 border border-left-0 border-bottom-0">
+        <div class="row justify-content-between mx-5">
+          <p><i class="fas fa-filter"></i>Filters</p>
+          <p>Remove Filters</p>
+        </div>
+        <div class="row justify-content-center mt-4 mb-2">
+          <div class="col-2 d-flex justify-content-start">City</div>
+          <div class="col-5">
+            <select class="w-75">
+              <option value="">A</option>
+              <option value="">B</option>
+              <option value="">C</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-2">
+          <div class="col-2 d-flex justify-content-start">Partner</div>
+          <div class="col-5">
+            <select class="w-75">
+              <option value="">A</option>
+              <option value="">B</option>
+              <option value="">C</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-2 d-flex justify-content-start">Quarter</div>
+          <div class="col-5">
+            <select class="w-75">
+              <option value="">A</option>
+              <option value="">B</option>
+              <option value="">C</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

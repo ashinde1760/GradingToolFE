@@ -1,0 +1,75 @@
+<div>
+  <app-heading [title]="'Manage Rating Form'"></app-heading>
+  <div class="col-5 mx-auto my-auto contain p-5 shadow">
+    <form (ngSubmit)="createProject()" [formGroup]="editProjectWizard">
+
+      <div class="form-group">
+        <label>Project Name</label>
+        <input class="form-control form-control-sm" formControlName="title" type="text">
+        <span *ngIf="editProjectWizard.get('title').invalid && editProjectWizard.get('title').touched"
+               class="text-danger">
+          provide a Project Name
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Project Description</label>
+        <input class="form-control form-control-sm" formControlName="description" type="text">
+        <span *ngIf="editProjectWizard.get('description').invalid && editProjectWizard.get('description').touched"
+               class="text-danger">
+          provide a Project Description
+        </span>
+      </div>
+
+      <div class="form-row justify-content-between m-auto">
+        <div class="form-group">
+          <label class="">Project Start Date</label>
+          <input class="form-control form-control-sm" formControlName="startDate" type="date" [min]="currentDate | date: 'yyyy-MM-dd'">
+          <span *ngIf="editProjectWizard.get('startDate').invalid && editProjectWizard.get('startDate').touched"
+                 class="text-danger">
+           provide a Project Start Date
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="text-center">Project End Date</label>
+          <input class="form-control form-control-sm" formControlName="endDate" type="date">
+          <span *ngIf="editProjectWizard.get('endDate').invalid && editProjectWizard.get('endDate').touched"
+                 class="text-danger">
+            provide a Project End Date
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="text-center">Self Assessment DeadLine</label>
+          <input class="form-control form-control-sm" formControlName="selfAssesmentDeadLine" type="date">
+          <span *ngIf="editProjectWizard.get('selfAssesmentDeadLine').invalid && editProjectWizard.get('selfAssesmentDeadLine').touched"
+                 class="text-danger">
+            provide a self assessment dead line
+          </span>
+        </div>
+
+      </div>
+
+      <div class="form-row justify-content-center  mt-4 ">
+        <div class="col ">
+          <button (click)="goBack()" class="btn btn-sm btn-outline-danger w-100" type="button"><i
+            class="fas fa-times"></i>
+            Cancel
+          </button>
+        </div>
+        <div class="col">
+          <button
+            class="btn btn-sm btn-outline-secondary w-100"
+            type="submit"
+          ><i
+            class="far fa-hand-point-right"></i> Next
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="justify-content-center align-items-center text-center">
+    <app-auth-spinner *ngIf="isLoading"></app-auth-spinner>
+  </div>
+</div>

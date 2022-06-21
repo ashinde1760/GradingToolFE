@@ -1,0 +1,114 @@
+<div>
+  <app-heading [title]="'Reporting'"></app-heading>
+  <div  class="col-5 mx-auto" style="margin-top: 100px;">
+    <div class="row justify-content-center my-3">
+      <div class="col">Select Report Type</div>
+      <div class="col">
+        <select class="form-control form-control-sm" (change)="setSelectedType($event)">
+          <option disabled hidden selected>Select option</option>
+          <option value='Training Center' >Training Center Wise</option>
+          <option value='Project'>Project Wise</option>
+          <option value='Partner'>Partner Wise</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="selectedType==='Project'" class="row justify-content-center my-3">
+      <div class="col">
+        <div class="row justify-content-center my-3">
+          <div class="col">Project *</div>
+          <div class="col">
+            <select class="form-control form-control-sm" (change)="selectProject($event)">
+              <option disabled hidden selected>Select Project</option>
+              <option [value]="project.projectId" *ngFor="let project of projects">{{project.title}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedType==='Partner'" class="row justify-content-center my-3">
+      <div class="col">
+        <div class="row justify-content-center my-3">
+          <div class="col">Project *</div>
+          <div class="col">
+            <select class="form-control form-control-sm" (change)="selectProject($event)">
+              <option disabled hidden selected>Select Project</option>
+              <option [value]="project.projectId" *ngFor="let project of projects">{{project.title}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center my-3">
+          <div class="col">Partner Name *</div>
+          <div class="col">
+            <select class="form-control form-control-sm" (change)="selectPartner($event)" >
+              <option disabled hidden selected>Select Partner</option>
+              <option [value]="partner.partnerId" *ngFor="let partner of partners"> {{ partner.partnerName }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="selectedType==='Training Center'" class="row justify-content-center my-3">
+      <div class="col">
+        <div class="row justify-content-center my-3">
+          <div class="col">Project *</div>
+          <div class="col">
+            <select class="form-control form-control-sm" (change)="selectProject($event)">
+              <option disabled hidden selected>Select Project</option>
+              <option [value]="project.projectId" *ngFor="let project of projects">{{project.title}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center my-3">
+          <div class="col">Partner Name *</div>
+          <div class="col">
+            <select class="form-control form-control-sm" (change)="selectPartner($event)" >
+              <option disabled hidden selected>Select Partner</option>
+              <option [value]="partner.partnerId" *ngFor="let partner of partners"> {{ partner.partnerName }}</option>
+            </select>
+          </div>
+        </div>
+        <div  *ngIf="isTraingCenterVisible"  class="row justify-content-center my-3">
+          <div class="col">TraningCenter Name *</div>
+          <div class="col">
+            <select class="form-control form-control-sm" (change)="selectTrainingCenter($event)">
+              <option disabled hidden selected>Select Training Center</option>
+              <option [value]="trainingCenter.tcId" *ngFor="let trainingCenter of trainingCenters"> {{ trainingCenter.tcName == '' ?  trainingCenter.tcId : trainingCenter.tcName}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div style='margin-left: 5px;'>
+        <button [disabled]="isDisable" class="btn btn-outline-secondary btn-sm" value='Preview' (click)="setPreview($event)">{{previewType&&selectedType!==''?"Close":"Preview"}}</button>
+      </div>
+      <div style='margin-left: 5px;'>
+        <button [disabled]="isDisable" class="btn btn-outline-secondary btn-sm" value="Download" (click)="downloadReport($event)">
+          <i class="fas fa-download"></i> Download
+        </button>
+      </div>
+      <div *ngIf="selectedType === 'Training Center'" style='margin-left: 5px;'>
+        <button [disabled]="isDisable" class="btn btn-outline-secondary btn-sm" value="Download" (click)="downloadAttachment($event)">
+          <i class="fas fa-download"></i> Download Attachment
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div *ngIf="previewType&&selectedType==='Project'">
+    <app-project-report></app-project-report>
+  </div>
+  <div *ngIf="previewType&&selectedType==='Training Center'">
+    <app-center-report></app-center-report>
+  </div>
+  <div *ngIf="previewType&&selectedType==='Partner'">
+    <app-partner-report></app-partner-report>
+  </div>
+</div>
+
+<div class="justify-content-center align-items-center text-center">
+  <app-auth-spinner *ngIf="isLoading"></app-auth-spinner>
+</div>

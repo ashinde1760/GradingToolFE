@@ -1,0 +1,64 @@
+<div *ngIf="!util.editQuestion" class="col-2 d-flex align-content-center pt-1 px-0">
+  <!-- 
+      These settings will disable closing modal when clicked outside and on escape key press
+        [attr.data-keyboard]="false"   
+        [attr.data-backdrop]="'static'"
+     -->
+  <i 
+    class="fas fa-edit text-secondary mr-2"
+    data-toggle="modal"
+    data-target="#editQuestionModal"
+    [attr.data-keyboard]="false"
+    [attr.data-backdrop]="'static'"
+    (click)="setTargetQuestion(sectionIndex, questionIndex)"
+  ></i>
+  <i  class="fas fa-trash text-danger" (click)="deleteTargetQuestion(sectionIndex, questionIndex)" ></i>
+</div>
+
+<!-- Edit Question Modal -->
+<!-- <div
+  class="modal fade"
+  id="editQuestionModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editQuestionModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editQuestionModalLabel">
+          Edit Your Question Here
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        [sectionIndex]="sectionIndex"
+        [questionIndex]="questionIndex" -->
+        <!-- <app-edit-survey-form
+          [targetQuestion]="targetQuestion"
+        ></app-edit-survey-form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-success">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div> --> 
+<!-- Edit Question Modal -->

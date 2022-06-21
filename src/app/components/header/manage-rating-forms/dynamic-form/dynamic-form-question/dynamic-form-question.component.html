@@ -1,0 +1,150 @@
+<div style="width:1150px;" >
+  <div style="margin-bottom: 5px;height: 30px;display: flex;flex-direction: row;align-items: center;justify-content: center;">
+    <h4 style="text-align: center;">{{questions.sectionId}}</h4>
+  </div>
+  <div style="padding-left: 15px;" *ngFor="let question of questions.questions;let i=index">
+    <div style="display: flex;justify-content: space-between;">
+      <div style="width: 80%;">
+        <span style="position: relative; float: left;margin-right: 0.5vw;">Q{{i+1 + ". "}}</span>
+        <label [attr.for]="question.key" class="font-weight-bolder" style="max-width: 95%;">{{ question.label+" "}}
+          <!-- <i
+              class="far fa-question-circle ml-3 text-info"
+        
+            ></i> -->
+          </label>
+      </div>
+      <p>Max Score : {{question.maxScore}}</p>
+    </div>
+      
+    
+  
+    <div [ngSwitch]="question.type">
+      <div  *ngSwitchCase="'Open-ended'" class="pb-3">
+        
+        <textarea type="text" [name]="question.key" style="width:450px"  class="form-control form-control-sm mx-3"></textarea>
+        <div style="display: flex;justify-content: center;flex-direction: row;margin-top: 10px;">   
+          <div style="margin-left: 15px;" *ngIf="question.attachment.docAttachment!=='No'">
+            <i style="color: '#f66b87';" title="Attach File mandatory for question" class="fas fa-file" ></i><span> File attachment <i><b>{{question.attachment.docAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+          <div style="margin-left: 15px;" *ngIf="question.attachment.imageAttachment!=='No'">
+             <i style="color:'#f66b87' ;margin-left: 10px;" title="Attach Image mandatory for question" class="fas fa-camera" ></i><span> Image attachment <i><b>{{question.attachment.imageAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+        </div>
+        <!--<app-custom-input
+          [formControlName]="question.key"
+          [formGroup]="form"
+          [id]="question.key"
+          [isDisabled]="question.disabled"
+          [isEventListenerRequired]="
+            question.isEventListenerRequired.toLowerCase()
+          "
+          [type]="question.controlType"
+        ></app-custom-input>-->
+      </div>
+  
+      <div *ngSwitchCase="'Dropdown'" class="pb-3">
+        <app-dropdown-question [question]="question" ></app-dropdown-question>
+        <div style="display: flex;justify-content:center;flex-direction: row;margin-top: 10px;">   
+          <div style="margin-left: 15px;" *ngIf="question.attachment.docAttachment!=='No'">
+            <i style="color: '#f66b87';" title="Attach File mandatory for question" class="fas fa-file" ></i><span> File attachment <i><b>{{question.attachment.docAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+          <div style="margin-left: 15px;" *ngIf="question.attachment.imageAttachment!=='No'">
+             <i style="color:'#f66b87' ;margin-left: 10px;" title="Attach Image mandatory for question" class="fas fa-camera" ></i><span> Image attachment <i><b>{{question.attachment.imageAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngSwitchCase="'Multiple choice'" class="pb-3">
+        <label style="display:flex;justify-content: space-between;"
+          *ngFor="let option of question.options"
+          class="mx-3 align-self-center form-inline "
+        >
+      
+          <div>
+            <input
+              [attr.disabled]="question.disabled ? '' : null"
+              [name]="question.key"
+              [required]="true"
+              [value]="option.optionData"
+              class="radio mx-2"
+              type="radio"
+              />
+              {{ option.optionData }}
+          </div>
+          <div style="display: flex;flex-direction: row;justify-content: flex-start;width:70px">
+            <p>
+              score : 
+            </p>
+            <p>
+              {{option.optionweightage}}
+            </p>
+          </div>
+   
+          <!-- <span class="font-weight-bold">{{ option.optionId + ". " }}</span> -->
+          <!-- (change)="
+              question.isEventListenerRequired.toLowerCase() == 'yes'
+                ? onChange(question.key)
+                : null
+            " -->
+        </label>
+        <div style="display: flex;justify-content:center;flex-direction: row;margin-top: 10px;">   
+          <div style="margin-left: 15px;" *ngIf="question.attachment.docAttachment!=='No'">
+            <i style="color: '#f66b87';" title="Attach File mandatory for question" class="fas fa-file" ></i><span> File attachment <i><b>{{question.attachment.docAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+          <div style="margin-left: 15px;" *ngIf="question.attachment.imageAttachment!=='No'">
+             <i style="color:'#f66b87' ;margin-left: 10px;" title="Attach Image mandatory for question" class="fas fa-camera"></i><span> Image attachment <i><b>{{question.attachment.imageAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'Check-Box'" class="pb-3">
+        <label style="display:flex;justify-content: space-between;"
+          *ngFor="let option of question.options"
+          class="mx-3 align-self-center form-inline"
+        >
+      <div>
+        <input
+          [attr.disabled]="question.disabled ? '' : null"
+          [name]="question.key"
+          [required]="true"
+          [value]="option.optionData"
+          class="radio mx-2"
+          type="checkbox"
+        />
+          {{ option.optionData }}
+      </div>
+      <div style="display: flex;flex-direction: row;justify-content: flex-start;width:70px">
+        <p>
+          score : 
+        </p>
+        <p>
+          {{option.optionweightage}}
+        </p>
+      </div>
+    </label>
+    <div style="display: flex;justify-content:center;flex-direction: row;margin-top: 10px;">   
+          <div style="margin-left: 15px;" *ngIf="question.attachment.docAttachment!=='No'">
+            <i style="color: '#f66b87';" title="Attach File mandatory for question" class="fas fa-file" ></i><span> File attachment <i><b>{{question.attachment.docAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+          <div style="margin-left: 15px;" *ngIf="question.attachment.imageAttachment!=='No'">
+             <i style="color:'#f66b87' ;margin-left: 10px;" title="Attach Image mandatory for question" class="fas fa-camera" ></i><span> Image attachment <i><b>{{question.attachment.imageAttachment!=='Yes'?"optional":'mandatory'}}</b></i></span>
+          </div>
+        </div>
+        </div>
+          <!-- <span class="font-weight-bold">{{ option.optionId + ". " }}</span> -->
+         
+          <!-- (change)="
+              question.isEventListenerRequired.toLowerCase() == 'yes'
+                ? onChange(question.key)
+                : null
+            " -->
+      
+        </div>
+      </div>
+  
+  
+
+  <!-- <div class="errorMessage" *ngIf="!isValid">
+    {{ question.label }} is required
+  </div> -->
+</div>

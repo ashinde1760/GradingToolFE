@@ -1,0 +1,58 @@
+<div class="setting-container">
+    <app-heading [title]="'Settings'"></app-heading>
+    <div class="setting-block">
+        <form *ngIf="accountData !== null" #userForm="ngForm" (ngSubmit)="updateAccount(userForm.form.controls)">
+            <div class="row">
+                <label class="label1">First Name</label>
+                <input type="text" required name="firstName" [(ngModel)]="accountData.firstName" #firstName="ngModel"/>
+                <span class="warning" *ngIf="firstName.touched && firstName.errors?.required">First name is required</span>
+            </div>
+            <div class="row">
+                <label class="label1">Last Name</label>
+                <input type="text" name="lastName" [(ngModel)]="accountData.lastName" ngModel />
+            </div>
+            <div class="row">
+                <label class="label1">Phone</label>
+                <input type="number" name="phone" readonly [value]="accountData.phone"/>
+            </div>
+            <div class="row">
+                <label class="label1">Role</label>
+                <input type="text" name="userRole" readonly [value]="accountData.role"/>
+            </div>
+            <div class="row">
+                <label class="label1">Email</label>
+                <input type="email" name="email" readonly [value]="accountData.email"/>
+            </div>
+            <div class="row d-flex">
+                <button type="submit" class="update-btn" [disabled]="userForm.invalid">Save</button>
+            </div>
+        </form>
+    </div>
+    <div class="setting-block">
+        <form #passwordForm="ngForm" (ngSubmit)="resetPassword(passwordForm.form)">
+            <div class="row">
+                <label class="label2">Change Password</label>
+            </div>
+            <div class="row">
+                <div class="password-block">
+                    <div class="row">
+                        <input type="password" required name="oldPassword" placeholder="Enter the old password" #oldPassword="ngModel" ngModel/>
+                        <span class="warning" *ngIf="oldPassword.touched && oldPassword.errors?.required">Old Password is required</span>
+                    </div>
+                    <div class="row">
+                        <input type="password" required name="newPassword" placeholder="Enter the new password" #newPassword="ngModel" ngModel/>
+                        <span class="warning" *ngIf="newPassword.touched && newPassword.errors?.required">New Password is required</span>
+                    </div>
+                    <div class="row">
+                        <input type="password" required appConfirmEqualValidator="newPassword" name="newConfirmPassword" placeholder="Enter the new confirm password" #newConfirmPassword="ngModel" ngModel/>
+                        <span class="warning" *ngIf="newConfirmPassword.touched && newConfirmPassword.errors?.required">New Confirm Password is required</span>
+                        <span class="warning" *ngIf="newConfirmPassword.touched && newConfirmPassword.errors?.notEqual">New Password and Confirm Password does not match</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex">
+                <button type="submit" class="update-btn" [disabled]="passwordForm.invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

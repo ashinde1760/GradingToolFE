@@ -1,0 +1,18 @@
+<div style="height: 84vh">
+  <app-heading [title]="'Home'"></app-heading>
+
+  <div style="height: 82vh; overflow: auto">
+    <div class="row justify-content-end mx-5">
+      <button (click)="addProject()" class="btn btn-outline-secondary btn-sm">
+        <i aria-hidden="true" class="fa fa-plus"></i>
+        <!-- Create Project-->
+      </button>
+    </div>
+    <div>
+      <app-active-projects (navigateToProject)="navigateToProject($event)"></app-active-projects>
+    </div>
+    <div>
+    <!-- <router-outlet></router-outlet>-->
+    </div>
+  </div>
+</div>

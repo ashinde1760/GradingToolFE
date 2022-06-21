@@ -1,0 +1,236 @@
+<div>
+  <app-heading [title]="'Manage Rating Form'"></app-heading>
+  <div class="col-5 mx-auto my-auto contain p-5 shadow">
+    <form
+      (ngSubmit)="proceedToSurveyFormEdit()"
+      [formGroup]="editProjectWizard"
+    >
+      <div class="form-group">
+        <label>Select a Project</label>
+        <select
+          (change)="fetchProject($event)"
+          class="form-control form-control-sm"
+        >
+        <option selected disabled hidden>--Select Project--</option>
+          <option
+            *ngFor="let project of availableProjects$ | async | displayProjects"
+            [selected]="projectTitle === project.title"
+            [value]="project.projectId"
+          >
+            {{ project.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Project Name</label>
+        <input
+          class="form-control form-control-sm"
+          formControlName="title"
+          type="text"
+        />
+        <span
+          *ngIf="
+            editProjectWizard.get('title').invalid &&
+            editProjectWizard.get('title').touched
+          "
+          class="text-danger"
+        >
+          provide Project Title
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label>Project Description</label>
+
+        <input
+          class="form-control form-control-sm"
+          formControlName="description"
+          type="text"
+        />
+        <!-- <span
+          *ngIf="
+            editProjectWizard.get('description').invalid &&
+            editProjectWizard.get('description').touched
+          "
+          class="text-danger"
+        > -->
+          provide Project Description
+        <!-- </span> -->
+      </div>
+
+      <div class="form-row justify-content-between m-auto">
+        <div class="form-group">
+          <label class="">Project Start Date</label>
+
+          <input
+            class="form-control form-control-sm"
+            formControlName="startDate"
+            type="date"
+            [min]="startDate | date: 'yyyy-MM-dd'"
+            [max]="selectedEndDate | date: 'yyyy-MM-dd'"
+            (change)="onStartDateSelect()"
+          />
+          <span
+            *ngIf="
+              editProjectWizard.get('startDate').invalid &&
+              editProjectWizard.get('startDate').touched
+            "
+            class="text-danger"
+          >
+            provide Project Start Date
+          </span>
+          <!-- <span
+            *ngIf="
+              editProjectWizard.get('startDate').touched && !invalidStartDate
+            "
+            class="text-danger"
+          >
+            invalid Start Date
+          </span> -->
+        </div>
+
+        <div class="form-group">
+          <label class="text-center">Project End Date</label>
+          <input
+            class="form-control form-control-sm"
+            formControlName="endDate"
+            type="date"
+            [min]="selectedStartDate | date: 'yyyy-MM-dd'"
+            (change)="onEndDateSelect()"
+          />
+          <span
+            *ngIf="
+              editProjectWizard.get('endDate').invalid &&
+              editProjectWizard.get('endDate').touched
+            "
+            class="text-danger"
+          >
+            provide Project End Date
+          </span>
+
+          <span
+            *ngIf="editProjectWizard.get('endDate').touched && invalidEndDate"
+            class="text-danger"
+          >
+            invalid End Date
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="text-center">Self Assessment DeadLine</label>
+          <input
+            class="form-control form-control-sm"
+            formControlName="selfAssesmentDeadLine"
+            type="date"
+            [min]="selectedStartDate | date: 'yyyy-MM-dd'"
+            [max]="selectedEndDate | date: 'yyyy-MM-dd'"
+          />
+          <span
+            *ngIf="
+              editProjectWizard.get('selfAssesmentDeadLine').invalid &&
+              editProjectWizard.get('selfAssesmentDeadLine').touched
+            "
+            class="text-danger"
+          >
+            provide a self assessment dead line
+          </span>
+
+          <span
+            *ngIf="editProjectWizard.get('selfAssesmentDeadLine').touched && invalidSelfAssmntDeadLine"
+            class="text-danger"
+          >
+            invalid self assessment dead line
+          </span>
+        </div>
+      </div>
+
+      <div class="form-row justify-content-center mt-4">
+        <div class="col">
+          <button
+            (click)="goBack()"
+            class="btn btn-sm btn-outline-danger w-100"
+            type="button"
+          >
+            <i class="fas fa-times"></i>
+            Cancel
+          </button>
+        </div>
+        <div class="col">
+          <button
+            class="btn btn-sm btn-outline-danger w-100"
+            data-target="#projectDeleteConfirmation"
+            data-toggle="modal"
+            type="button"
+          >
+            <i class="fas fa-trash"></i>
+            Delete
+          </button>
+        </div>
+        <div class="col">
+          <button class="btn btn-sm btn-outline-secondary w-100" type="submit">
+            <i class="far fa-hand-point-right"></i> Next
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="justify-content-center align-items-center text-center">
+    <app-auth-spinner *ngIf="isLoading"></app-auth-spinner>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  aria-hidden="true"
+  aria-labelledby="exampleModalCenterTitle"
+  class="modal right fade"
+  id="projectDeleteConfirmation"
+  role="dialog"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Project Delete Confirmation
+        </h5>
+        <button
+          aria-label="Close"
+          class="close"
+          data-dismiss="modal"
+          type="button"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          You are going to <span>Delete</span> a project titled : "<strong>{{
+            targetProject$ ? (targetProject$ | async).title : ""
+          }}</strong
+          >"
+        </p>
+        <p>This action is <strong>Irreversible</strong></p>
+        <p style="font-size: 0.9em;">Deleting a project will delete all the Project Mappings, Forms, Surveys, Survey Response associated with this project. Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-sm btn-secondary"
+          data-dismiss="modal"
+          type="button"
+        >
+          Close
+        </button>
+        <button
+          (click)="deleteProject()"
+          class="btn btn-sm btn-danger"
+          data-dismiss="modal"
+          type="button"
+        >
+          Confirm Deletion
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

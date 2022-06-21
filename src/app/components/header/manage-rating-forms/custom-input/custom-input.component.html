@@ -1,0 +1,45 @@
+<!--
+ -->
+<div [formGroup]="formGroup" [ngSwitch]="type">
+  <input
+    *ngSwitchCase="'number'"
+    [formControlName]="formControlName"
+    [type]="type"
+    [id]="id"
+    class="form-control mx-3 p-1"
+    value=""
+    [attr.disabled]="isDisabled ? '' : null"
+    (change)="onChange(id)"
+  />
+  <input
+    *ngSwitchCase="'text'"
+    [formControlName]="formControlName"
+    [type]="'text'"
+    [id]="id"
+    [attr.disabled]="isDisabled"
+    (change)="onChange(id)"
+    value=""
+    class="form-control mx-3 p-1"
+  />
+  <input
+    *ngSwitchCase="'media'"
+    [type]="'file'"
+    [formControlName]="formControlName"
+    [id]="id"
+    [attr.disabled]="isDisabled"
+    class="form-control-file mx-3 p-1"
+    (change)="onChange(id)"
+    value=""
+  />
+  <input
+    *ngSwitchCase="'date'"
+    type="date"
+    [formControlName]="formControlName"
+    [id]="id"
+    [disabled]="isDisabled"
+    class="form-control mx-3 p-1"
+    (change)="onChange(id)"
+    value=""
+  />
+</div>
+<!-- <input type="file" name="" id="" /> -->

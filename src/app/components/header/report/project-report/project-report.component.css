@@ -1,0 +1,195 @@
+.report-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+  
+    float: left;
+    width: 100%;
+    height: auto;
+
+}
+
+    .report-container .main-heading {
+        position: relative;
+        float: left;
+        width: 100%;
+        height: auto;
+        text-align: center;
+        padding: 15px;
+        font-family: Segoe UI Semibold;
+        font-size: 2.1rem;
+        margin-top: 15px;
+        color: #2B77B4;
+    }
+
+    .report-container .container-body {
+        position: relative;
+        float: left;
+        width: 80%;
+        height: auto;
+        margin: 5vh 10% 5vh;
+    }
+
+        .report-container .container-body .project-data-grid {
+            position: relative;
+            float: left;
+            width: 100%;
+            height: auto;
+        }
+
+            .report-container .container-body .project-data-grid .li {
+                padding: 2px;
+                color: #707070;
+                font-family: Segoe UI Semibold;
+            }
+
+            .report-container .container-body .project-data-grid .text {
+                padding: 2px;
+                color: #707070;
+                font-family: Segoe UI Semibold;
+                flex: 1;
+            }
+
+            .report-container .container-body .project-data-grid .label1 {
+                color: black;
+                font-family: Segoe UI;
+                font-weight: bold;
+                width: 250px;
+            }
+
+            .report-container .container-body .project-data-grid .label2 {
+                color: black;
+                font-family: Segoe UI;
+                font-weight: bold;
+                width: 380px;
+            }
+
+.first-grid {
+    margin-right: 20px;
+}
+
+.single-flex-container {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #B1B1B1;
+}
+
+.address-label {
+    width: 250px;
+}
+
+.address-text {
+    flex: 1;
+}
+
+.two-column-grid {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.report-container .container-body .sub-heading-type1 {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    font-size: 2rem;
+    font-family: Segoe UI Semibold;
+    color: darkgoldenrod;
+    margin: 5vh 0;
+}
+
+.report-container .container-body .sub-heading-type2 {
+    position: relative;
+    float: left;
+    width: 90%;
+    height: auto;
+    font-size: 1.15rem;
+    font-family: Segoe UI Semibold;
+    color: #34495E;
+    margin: 0 5% 3vh;
+}
+
+.scorcard-container {
+    position: relative;
+    float: left;
+    width: 90%;
+  
+}
+
+.summery-scorcard-table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 10% 5%
+}
+
+    .summery-scorcard-table td, .summery-scorcard-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .summery-scorcard-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .summery-scorcard-table tr:hover {
+        background-color: #ddd;
+    }
+
+    .summery-scorcard-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+
+.sub-section-table {
+    position: relative;
+    float: left;
+    width: 90%;
+    height: auto;
+    margin-left: 5%;
+    margin-bottom: 7vh;
+}
+
+    .sub-section-table .sub-summery-scorcard-table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .sub-section-table .sub-summery-scorcard-table td, .sub-summery-scorcard-table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .sub-section-table .sub-summery-scorcard-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .sub-section-table .sub-summery-scorcard-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .sub-section-table .sub-summery-scorcard-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #5D6D7E;
+            color: white;
+        }     
+        
+        
+        .warning{
+            position: relative;
+            float: left;
+            width: 80%;
+            margin: 0 10%;
+            color: orange;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }

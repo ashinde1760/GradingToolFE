@@ -1,0 +1,44 @@
+<div class="contain">
+  <h4 *ngIf="!notEmpty" class="text-center place-holder">
+    No Questions Has Been Created Yet
+  </h4>
+
+  <div *ngIf="notEmpty">
+    <!-- <div class="row justify-content-end container">
+      <div class="col-3 mt-1 d-flex flex-row justify-content-end border">
+        <i class="fas fa-filter"></i>Filter
+      </div>
+      <div class="col-3 d-flex float-right border">
+        <select class="form-control form-control-sm">
+          <option *ngFor="let section of sections; let i = index">
+            {{ "Section " + (i + 1) }}
+          </option>
+        </select>
+      </div>
+    </div> -->
+    <div
+      *ngFor="let section of sections; let i = index"
+      class="shadow-sm mx-3 my-5"
+    >
+    <!-- <h4 *ngIf="section[2].length ==0" class="text-center place-holder">
+      No Questions Has Been Created Yet
+    </h4> -->
+      <div class="row" *ngIf="section[2].length > 0">
+        <div class="col">
+          <div class="row m-3 px-2 justify-content-between">
+            <span class="font-weight-bolder">{{ section[3] }}</span>
+            <span class="ml-auto font-weight-bolder"
+              >Max Marks : {{ section[1] }}</span
+            >
+          </div>
+          <div>
+            <app-display-question-list
+              [questionList]="section[2]"
+              [sectionIndex]="i"
+            ></app-display-question-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

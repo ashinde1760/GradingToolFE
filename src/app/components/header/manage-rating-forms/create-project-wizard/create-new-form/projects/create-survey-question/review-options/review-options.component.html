@@ -1,0 +1,134 @@
+<form *ngIf="util.surveyForm.get('options').value.length!==0" [formGroup]="util.surveyForm">
+  <div  formArrayName="options">
+    <div 
+    
+      *ngFor="let option of util.surveyForm.get('options')['controls']; let i = index"
+     [formGroupName]="i"
+    >
+      <div  class="row">
+        <div class="col-1">
+          <p class="ml-0">
+            {{ option.value.optionId}}
+          </p>
+        </div>
+        <div class="col-4">
+          <input
+           formControlName="optionData"
+            class="form-control form-control-sm"
+            required
+            [style.border-color]="option.optionData==''?'red':null"
+          />
+        </div>
+    
+        <div class="col-2">
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            formControlName="optionweightage"
+            required
+            [style.border-color]="option.optionweightage==''?'red':null"
+          />
+        </div>
+    
+        <div class="col-4">
+          <select
+            class="form-control form-control-sm"
+            formControlName="inputFieldRequired"
+          >
+            <option
+              [ngValue]="optionInputFieldType"
+              *ngFor="let optionInputFieldType of util.optionInputFieldTypes"
+           
+            >
+              {{ optionInputFieldType }}
+            </option>
+          </select>
+        </div>
+    
+        <div class="d-flex justify-content-center align-items-center">
+          <span
+            class="material-icons text-danger rounded-circle"
+            id="icon"
+            data-toggle="modal"
+            [attr.data-target]="'#deleteOption' + i"
+          >
+            delete
+          </span>
+        </div>
+    
+        <app-delete-option
+          [optionIdType]="optionIdType"
+          [index]="i"
+          [optionRef]="option"
+        ></app-delete-option>
+      </div>
+      <span *ngIf="option.get('optionData').invalid&&!option.get('optionData').untouched||option.get('optionweightage').invalid&&!option.get('optionweightage').untouched"  style="color: red;font-size: small;">*please fill the mandatory fields</span>
+    </div>
+  </div>
+</form>
+<!-- <div
+    *ngFor="let option of surveyForm.get('options').value; let i = index"
+    class=""
+  >
+    <div  class="row">
+      <div class="col-1">
+        <p class="ml-0">
+          {{ option.optionId }}
+        </p>
+      </div>
+      <div class="col-4">
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          [value]="option.optionData"
+          (blur)="updateOption($event, i, 'optionDataChange')"
+          required
+          [style.border-color]="option.optionData==''?'red':null"
+        />
+      </div>
+  
+      <div class="col-2">
+        <input
+          type="number"
+          class="form-control form-control-sm"
+          [value]="option.optionweightage"
+          required
+          (blur)="updateOption($event, i, 'optionWeightageChange')"
+          required
+          [style.border-color]="option.optionweightage==''?'red':null"
+        />
+      </div>
+  
+      <div class="col-4">
+        <select
+          class="form-control form-control-sm"
+          (change)="updateOption($event, i, 'optionInputFieldTypeChange')"
+        >
+          <option
+            [value]="optionInputFieldType"
+            *ngFor="let optionInputFieldType of util.optionInputFieldTypes"
+            [selected]="option.inputFieldRequired === optionInputFieldType"
+          >
+            {{ optionInputFieldType }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="d-flex justify-content-center align-items-center">
+        <span
+          class="material-icons text-danger rounded-circle"
+          id="icon"
+          data-toggle="modal"
+          [attr.data-target]="'#deleteOption' + i"
+        >
+          delete
+        </span>
+      </div>
+  
+      <app-delete-option
+        [optionIdType]="optionIdType"
+        [index]="i"
+        [optionRef]="option"
+      ></app-delete-option>
+    </div>
+  </div> -->

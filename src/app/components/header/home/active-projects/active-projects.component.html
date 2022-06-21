@@ -1,0 +1,74 @@
+<!--<div-->
+<!--  *ngIf="(projects$|async).length===0"-->
+<!--  class="row mx-auto justify-content-around align-items-center p-5 shadow "-->
+<!--  style="height: 40vh;width: 40%;margin-top: 6.25%">-->
+
+<!--  <div class="col nopadding ">-->
+<!--    <div class="row mx-auto justify-content-center "><h3>No Projects to Display</h3></div>-->
+<!--    <div class="row mx-auto justify-content-center mt-3">-->
+<!--      <button (click)="addProject()" class="btn btn-outline-secondary btn-sm">-->
+<!--        <i aria-hidden="true" class="fa fa-plus"></i>-->
+<!--        Create Project-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div>
+  <div class="mx-3">
+    <div
+      class="d-flex mx-auto mt-1"
+      style="overflow-y: hidden; overflow-x: auto"
+    >
+      <!--  *ngFor="let project of projectManagementService.projects; let i = index"-->
+
+      <ng-container *ngIf="projects$ | async as projects">
+        <div
+          (click)="selectProject(i)"
+          *ngFor="let project of projects | displayProjects; let i = index"
+          [ngClass]="{
+            'mt-3': true,
+            'mb-4': true,
+            'mx-3': true,
+            'col-2': true,
+            tab: true,
+            selected: project.selected
+          }"
+        >
+          <div
+            class="row mx-auto px-2 justify-content-center mb-1 text-center"
+            style="height: 40px; width: 100%;margin-top: 4px;"
+          >
+            {{ project.title }}
+          </div>
+
+          <div
+            class="row justify-content-center color mx-auto my-2 custom-font-size"
+            style="height: 25px; width: 100%;font-size: small;"
+          >
+            Project Description
+          </div>
+
+          <div
+            class="row mx-auto text-center justify-content-center color mt-1 custom-font-size"
+            style="height: 50px; width: 100%; overflow-y: auto;font-size: small;"
+          >
+            {{ project.description }}
+          </div>
+          <div
+            class="row mx-auto text-center justify-content-center color mt-1 custom-font-size"
+            style="height:80px; width: 100%; overflow-y: auto"
+          >
+            <p>Project Start :</p><span>{{project.startDate}}</span><!-- {{ project.description }} -->
+            <p>Project End :</p><span>{{project.endDate}}</span><!-- {{ project.description }} -->
+          </div>
+
+          <div class="row justify-content-end mx-auto">
+            <i (click)="editProject(i)" class="far fa-edit"></i>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,125 @@
+.setting-container{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    padding-bottom: 5vh;
+}
+
+.setting-container h4{
+    text-align: center;
+    background-color: rgb(255, 187, 0);
+    font-size: 1.5em;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: .5rem 0 !important;
+}
+
+/* .setting-container .header{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 10vh;
+    margin: 3vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.setting-container .header span{
+    font-size: 2rem;
+    color: darkgray;
+}
+
+.setting-container .setting-block{
+    position: relative;
+    float: left;
+    width: 35%;
+    height: auto;
+    margin: 5vh 32.5% 0;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.setting-container .setting-block form{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+.setting-container .setting-block form .row{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: 5px 0;
+    display: block;
+}
+
+
+.setting-container .setting-block form .row div.icon{
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.setting-container .setting-block form .row .password-block{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    padding: 0 1rem;
+}
+
+.setting-container .setting-block form .label1{
+    position: relative;
+    float: left;
+    width: 100%;
+    height: auto;
+    color: gray;
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+}
+
+.setting-container .setting-block form label.label2{
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: black;
+}
+
+.setting-container .setting-block form input{
+    position: relative;
+    float: left;
+    width: 100%;
+    outline: none;
+    border-radius: .2rem;
+    color: #495057;
+    border: 1px solid #ced4da;
+    padding: .25rem .5rem;
+    font-size: .8rem;
+    line-height: 1.5;
+    height: calc(1.5em + .5rem + 2px);
+}
+
+.update-btn{
+    color: #868e96;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    border: 1px solid #ced4da;
+    outline: none;
+}
+
+.warning{
+    color: red;
+    font-size: 0.65rem;
+}
+
+.d-flex{
+    display: flex;
+    justify-content: center;
+}

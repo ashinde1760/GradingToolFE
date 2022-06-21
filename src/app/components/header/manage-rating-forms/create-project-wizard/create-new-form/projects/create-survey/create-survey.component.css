@@ -1,0 +1,38 @@
+.font-size {
+  font-size: 20px;
+}
+
+:host {
+  font-size: 14px;
+}
+
+i {
+  color: rgb(255, 105, 105);
+  font-size: 23px;
+  cursor: pointer;
+}
+.save-button {
+  width: 110px;
+  padding: 1px 0px 0px 1px;
+  background-color:rgb(255, 105, 105) ;
+  border: solid 1px rgb(202, 28, 28) ;
+  border-radius: 5px;
+  color: white;
+}
+.save-button:focus {
+  outline: none;
+}
+
+.place-holder {
+  margin-top: 15vh;
+  border-radius: 30px;
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  /* background-color: #eee; */
+  color: #aaa;
+  /* -webkit-box-shadow: 1px 1px 38px 12px rgba(219, 219, 219, 1);
+  -moz-box-shadow: 1px 1px 38px 12px rgba(219, 219, 219, 1); */
+  box-shadow: 1px 1px 7px 1px rgba(219, 219, 219, 1);
+}

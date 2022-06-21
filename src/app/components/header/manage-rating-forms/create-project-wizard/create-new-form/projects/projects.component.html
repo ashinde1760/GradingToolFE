@@ -1,0 +1,29 @@
+<!-- max view port height 82vh -->
+<div   style="height: 71.5vh;display:flex;justify-content:center ;">
+  <form (ngSubmit)="onSubmit()" [formGroup]="util.surveyForm">
+    <div  style="display:flex;flex-direction: row;width:75vw;height:65.25vh">
+      <div class="col-6 nopadding my-border1">
+        <h4 class="text-center types">Workbench</h4>
+        <div class="col-12 h-50">
+          <app-create-survey></app-create-survey>
+        </div>
+      </div>
+
+      <div class="col-6 nopadding my-border2">
+        <h4 class="text-center types">Output Preview</h4>
+        <div class="col-12">
+          <app-display></app-display>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content: space-between;width:75vw;height:5.5vh" >
+     <button style="border-style: none;background-color: transparent;">
+       <i class="fa fa-chevron-circle-left"  (click)="goToManageForms()"  style="font-size:38px;color:rgb(253, 177, 36);margin-right: 15px;margin-top: 2px;"></i>
+     </button>
+     
+       <!-- <button class="btn btn-secondary btn-sm w-20 h-60" (click)="goToManageForms()" style="margin-right: 15px;margin-top: 2px;">Back To Manage Forms</button> -->
+       <button [attr.disabled]="sectionNameValid?null:'red'" class="btn btn-warning btn-sm w-20 h-60 " type="submit"  style="color:white;margin-top: 2px;">Submit Survey</button>
+      <!-- <input class="btn-submit text-center" style="margin-top: 2px;" type="submit" value="Submit Survey" /> -->
+    </div>
+  </form>
+</div>

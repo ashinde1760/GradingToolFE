@@ -1,0 +1,10 @@
+#icon:hover {
+  cursor: pointer;
+}
+.types {
+  background-color: #eee;
+  /* padding: 5px 5px 5px 5px; */
+}
+.ng-invalid.ng-touched{
+  border-color: red;
+}

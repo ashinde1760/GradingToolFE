@@ -1,0 +1,122 @@
+<div>
+  <app-heading [title]="'Scheduler'"></app-heading>
+  <!-- <div class="row m-auto px-2">
+    <div class="col-sm-8 form-inline">
+      <h5 >Please select either Projet or Partner to view details</h5>
+    </div>
+  </div> -->
+  <div style="margin-top:2%;" class="row  px-2">
+    <div class="col-sm-10 form-inline" >
+      <select class="advancedSearchTextbox" required (change)='selectForm($event)' (change)="setApply()" >
+        <option value="" disabled selected hidden >Select Form type</option>
+        <option value="grading" >Grading type</option>
+        <option value="rating" >Rating type</option>
+      </select>
+      <form>
+        <select class="advancedSearchTextbox" required (change)="selectProject($event)" (change)="setApply()">
+          <option value=""  disabled selected hidden>Filter By Project</option>
+          <option value="{{project.title}}" *ngFor="let project of projects$ | async">{{project.title}}</option>
+        </select>
+        <select class="advancedSearchTextbox" required (change)="selectPartner($event)" (change)="setApply()">
+          <option value=""  selected hidden>Filter By Partner Name</option>
+          <option value="{{partner.partnerName}}" *ngFor="let partner of partners$ | async">{{partner.partnerName}}</option>
+        </select>
+        <button [disabled]="isApplyDisabled" type="submit" class="btn btn-outline-secondary btn-sm" (click)="filetrBy()" style="margin:5px;">Apply</button>
+        <button type="reset" class="btn btn-outline-secondary btn-sm" (click)="filterReset()">Reset</button>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="formType==null" style="width:100%;display: flex;justify-content: center;" >
+    <h4 class="text-center place-holder">
+     Select Form
+    </h4>
+  </div>
+  <div *ngIf="formType!=null" class="row mx-auto mt-2">
+    <div class="mx-auto" style="overflow: auto;margin-top: 2%; width:80vw; height: 65vh">
+      <table class="table">
+        <thead style="font-size: span">
+          <tr class="text-center border border-left-0 border-right-0 border-top-0">
+            <th class="text-center">Actions</th>
+            <th  class="text-center">Partner Name</th>
+            <th class="text-center " *ngIf="formType=='rating'" >Training Center</th>
+            <th class="text-center">Project Name</th>
+            <th class="text-center">Form Name</th>
+            <th class="text-center">Self Assessment Status</th>
+            <th class="text-center">Audit Status</th>
+            <th class="text-center">Field Auditor Name</th>
+            <th class="text-center">Audit Date </th>
+            <th class="text-center">Cancel Audit</th>
+          </tr>
+        </thead>
+       
+        <tbody>
+          <tr style="font-size:medium;" [id]="i" *ngFor="let partnerAndTraining of displayform; let i = index" class="text-center border border-left-0 border-right-0 border-top-0">
+            <td class=" justify-content-center pt-2 sticky-col">
+              <button *ngIf="!isEnable && editableRow == i " class="btn page-secondary-action-btn editable" (click)="cancel($event)">
+                <i class="fa fa-times"></i>
+              </button>
+              <button *ngIf="!isEnable && editableRow == i" id="saveBtn" class="btn page-primary-action-btn editable" (click)="update(auditorName, auditorContact, isAuditCancel, auditDate, i)">
+                <i class="fas fa-save"></i>
+              </button>
+              <i *ngIf="isEnable" [disabled]="partnerAndTraining.auditStatus&&partnerAndTraining.selfAssignmentStatus" class="fa fa-pencil mx-2" (click)="onEdit($event, i)" ></i>
+            </td>
+            <td ><p style="width: 125px;">{{partnerAndTraining.partnerName}}</p></td>
+            <td *ngIf="formType=='rating'"><p style="width: 125px;;">{{partnerAndTraining.tcName}}</p></td>
+            <td ><p style="width: 150px;">{{partnerAndTraining.projectName}}</p></td>
+            <td ><p style="width: 125px;">{{partnerAndTraining.formName}}</p></td> 
+            <td class="selfAssignmentStatus">
+             <tr>
+              <!-- <span [ngClass]="{
+                'text-success':partnerAndTraining.selfAssignmentStatus==='Completed',
+                'text-danger':partnerAndTraining.selfAssignmentStatus==='Not Completed'
+                }">
+                  
+                </span> -->
+                {{partnerAndTraining.selfAssignmentStatus ? "Completed" : "Pending"}}
+             </tr>
+             <tr *ngIf="partnerAndTraining.selfAssignmentStatus" style="margin-top: 10px;" ><input style="width: 150px;" type="date" [value]="dateFormatter(partnerAndTraining.selfAssignmentDate)" class="form-control form-control-sm text-center select-width" [min]="currentDate | date: 'yyyy-MM-dd'" readonly /></tr>
+            </td>           
+            <td>
+              <span>
+                {{partnerAndTraining.auditStatus ? "Completed" : "Pending"}}
+              </span>
+            </td>
+            <td>
+              <tr>
+                <p style="width: 150px;">
+                  <select id="filedAuditordropdown" class="form-control form-control-sm text-center select-width editable" #auditorName style="float: left;width: 100%;" [disabled]="partnerAndTraining.auditStatus || !isEditMode || !(i == editableRow) || isAuditCancel.checked || (isAuditCancelFlag && (i == selectedRowOnIsCancel))" (change)="selectContact($event, i)">
+                    <option value="" disabled selected>Field Auditor</option>
+                    <option [selected]="partnerAndTraining.fieldAuditorId === fieldAuditor.userId" *ngFor="let fieldAuditor of fieldAuditors; let j = index" [value]="fieldAuditor.userId">
+                      {{fieldAuditor.name}}
+                    </option>
+                  </select>
+                </p>
+              </tr>
+              <tr class="contact">
+                <p style="width: 150px;margin-top: 5px;" #auditorContact>
+                  {{partnerAndTraining.fieldAuditorContact}}
+                </p>
+              </tr>
+            </td>        
+            <td ><input style="width: 150px;" [disabled]="partnerAndTraining.auditStatus || !isEditMode || !isFieldAuditorFilled || !(i == editableRow) || isAuditCancel.checked || (isAuditCancelFlag && (i == selectedRowOnIsCancel))" type="date" [value]="dateFormatter(partnerAndTraining.auditDate)" class="form-control form-control-sm text-center select-width editable" #auditDate [min]="currentDate | date: 'yyyy-MM-dd'" /></td>
+            <td class="text-center p-1"><input style="margin-top: 15px;" [disabled]="partnerAndTraining.auditStatus || !isEditMode || !(i == editableRow)" type="checkbox" #isAuditCancel [checked]="partnerAndTraining.isAuditCancel" class="editable" (click)="isAuditStatusCheck($event, i)"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="col-md-12 text-center">
+      <button type="submit" class="btn btn-primary" (click)="save(partnerAndTraining.projectMappingId, filedAuditor.value, auditDate.value, auditStatus.value, isAuditCanceled.value)">Save</button>
+    </div> --> 
+  </div>
+  
+  <!-- <div>
+    <select id="filedAuditordropdown" style="display: none;">
+      <option></option>
+      <option *ngFor="let filedAuditor of fieldAuditorList$; let j = index" [value]="filedAuditor.userId">
+        {{filedAuditor.firstName}}</option>
+    </select>
+  </div> -->
+  <div class="justify-content-center align-items-center text-center">
+    <app-auth-spinner *ngIf="isLoading"></app-auth-spinner>
+  </div>
+</div>  

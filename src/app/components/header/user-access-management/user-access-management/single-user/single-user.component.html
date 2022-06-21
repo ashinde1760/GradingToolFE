@@ -1,0 +1,25 @@
+<div class="contain">
+    <form [formGroup]="singleUser" class=".form">
+        <div class="row my-3">
+            <label class="col-sm-4">Name</label>
+            <input formControlName="name" type="text" class="col" />
+        </div>
+        <div class="row my-3">
+            <label class="col-sm-4">Phone</label>
+            <input formControlName="phone" type="text" class="col" />
+        </div>
+        <div class="row my-3">
+            <label class="col-sm-4">EmailId</label>
+            <input formControlName="emailId" type="text" class="col" />
+        </div>
+        <div class="row my-3">
+            <label class="col-sm-4" for="role">Role</label>
+            <select name="role" id="role">
+                <option style="display:none;"></option>
+                <option value="volvo">Field Auditor</option>
+                <option value="saab">Center-in-Charge</option>
+                <option value="mercedes">Client Sponsor</option>
+            </select>
+        </div>
+    </form>
+</div>
