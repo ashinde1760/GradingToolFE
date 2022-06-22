@@ -28,7 +28,6 @@ const routes: Routes = [
     path: 'home', component: HomeComponent,canActivate:[AuthGuardService], children: [
       { path: 'project/:id', component: ProjectDetailsComponent }
     ]
-    
   },
   { path: 'user-access-management', component: UserAccessManagementComponent ,canActivate:[AuthGuardService]},
 

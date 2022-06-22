@@ -220,7 +220,7 @@ export class UserEffects {
                     jwtToken: this.jwtToken
                 }
             }
-            return this.http.patch(UserUrl + "/" + userData.payload.userId, userData.payload.user, option)
+            return this.http.patch(UserUrl + userData.payload.userId, userData.payload.user, option)
                 .pipe(
                     tap((data) => {
                         this.loadingSpinner.isLoading.next(false);

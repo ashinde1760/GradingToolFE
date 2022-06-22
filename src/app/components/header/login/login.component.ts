@@ -95,6 +95,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     );
     this.errorMessage$ = this.store.select(getError);
+ 
+    
   }
 
   // to validate the otp that user get in email and sms to reset the passowrd.
